@@ -7,12 +7,12 @@
 <div class="kt-sidebar-header hidden lg:flex items-center relative justify-between px-3 lg:px-6 shrink-0" id="sidebar_header">
     {{-- Logo --}}
     <a class="dark:hidden" href="{{ route('team.dashboard') }}">
-        <img class="default-logo min-h-[20px] max-w-none" src="{{ $appData['companyLogo'] }}" alt="{{ $appData['companyName'] ?? 'Company Logo' }}" />
-        <img class="small-logo min-h-[20px] max-w-none" src="{{ $appData['companyFavicon'] }}" alt="{{ $appData['companyName'] ?? 'Company Logo' }}" />
+        <img class="default-logo h-24" src="{{ $appData['companyLogo'] }}" alt="{{ $appData['companyName'] ?? 'Company Logo' }}" />
+        <img class="small-logo w-24 " src="{{ $appData['companyFavicon'] }}" alt="{{ $appData['companyName'] ?? 'Company Logo' }}" />
     </a>
     <a class="hidden dark:block" href="{{ route('team.dashboard') }}">
-        <img class="default-logo min-h-[20px] max-w-none" src="{{ $appData['companyLogo'] }}" alt="{{ $appData['companyName'] ?? 'Company Logo' }}" />
-        <img class="small-logo min-h-[20px] max-w-none" src="{{ $appData['companyFavicon'] }}" alt="{{ $appData['companyName'] ?? 'Company Logo' }}" />
+        <img class="default-logo h-24" src="{{ $appData['companyLogo'] }}" alt="{{ $appData['companyName'] ?? 'Company Logo' }}" />
+        <img class="small-logo w-24 " src="{{ $appData['companyFavicon'] }}" alt="{{ $appData['companyName'] ?? 'Company Logo' }}" />
     </a>
     
     @if($showToggle)

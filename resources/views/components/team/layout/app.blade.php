@@ -16,6 +16,8 @@
         'resources/css/team/vendors/styles.bundle.css',
         'resources/css/team/styles.css',
     ])
+    
+    @stack('styles')
 </head>
 
 @props([
@@ -66,6 +68,9 @@
             </main>
         </div>
     </div>
+    <!-- jQuery Full Version -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    
     @vite([
         'resources/js/team/core.bundle.js', 
         'resources/js/team/vendors/abstud.min.js',
@@ -73,5 +78,7 @@
         'resources/js/team/vendors/general.js',
         'resources/js/team/vendors/demo.js',
     ])
+    
+    @stack('scripts')
 </body>
 </html>

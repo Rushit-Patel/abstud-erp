@@ -287,13 +287,6 @@ $breadcrumbs = [
                                         Complete your company profile to get started.
                                     @endif
                                 </span>
-                                <a class="kt-btn kt-btn-primary" href="{{ route('team.settings.company.edit') }}">
-                                    @if($company && $company->is_setup_completed)
-                                        Update Settings
-                                    @else
-                                        Complete Setup
-                                    @endif
-                                </a>
                             </div>
                         </div>
 
@@ -359,35 +352,6 @@ $breadcrumbs = [
                                         <a href="{{ route('team.settings.index') }}" class="kt-btn kt-btn-sm kt-btn-icon kt-btn-ghost">
                                             <i class="ki-filled ki-right"></i>
                                         </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Company Statistics Card -->
-                        <div class="kt-card">
-                            <div class="kt-card-header">
-                                <h3 class="kt-card-title">
-                                    Company Overview
-                                </h3>
-                            </div>
-                            <div class="kt-card-content">
-                                <div class="grid gap-4">
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-secondary-foreground">Branches</span>
-                                        <span class="text-sm font-medium">{{ \App\Models\Branch::count() ?? 0 }}</span>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-secondary-foreground">Users</span>
-                                        <span class="text-sm font-medium">{{ \App\Models\User::count() ?? 0 }}</span>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-secondary-foreground">Students</span>
-                                        <span class="text-sm font-medium">{{ \App\Models\Student::count() ?? 0 }}</span>
-                                    </div>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm text-secondary-foreground">Partners</span>
-                                        <span class="text-sm font-medium">{{ \App\Models\Partner::count() ?? 0 }}</span>
                                     </div>
                                 </div>
                             </div>

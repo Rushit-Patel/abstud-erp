@@ -33,23 +33,52 @@ class CompanySettingsController extends Controller
      */
     public function update(Request $request)
     {
-        $company = CompanySetting::first();
+        $company = CompanySetting::first() ?? new CompanySetting();
         
         $request->validate([
             'company_name' => 'required|string|max:255',
-            'company_email' => 'required|email|max:255',
-            'company_phone' => 'nullable|string|max:20',
-            'company_address' => 'nullable|string|max:500',
-            'company_website' => 'nullable|url|max:255',
-            'company_description' => 'nullable|string|max:1000',
-            'timezone' => 'required|string|max:50',
-            'date_format' => 'required|string|max:20',
-            'time_format' => 'required|string|max:20',
-            'currency' => 'required|string|max:10',
-            'language' => 'required|string|max:10',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            'website_url' => 'nullable|url|max:255',
+            'company_address' => 'nullable|string|max:1000',
+            'city' => 'nullable|string|max:100',
+            'state' => 'nullable|string|max:100',
+            'country' => 'nullable|string|max:100',
+            'postal_code' => 'nullable|string|max:20',
+            'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'company_favicon' => 'nullable|image|mimes:ico,png,jpg|max:1024',
+            'is_setup_completed' => 'nullable|boolean',
         ]);
 
-        $company->update($request->except(['company_logo', 'company_favicon']));
+        $data = $request->except(['company_logo', 'company_favicon']);
+        $data['is_setup_completed'] = $request->has('is_setup_completed');
+
+        // Handle logo upload
+        if ($request->hasFile('company_logo')) {
+            // Delete old logo if exists
+            if ($company->company_logo) {
+                Storage::disk('public')->delete($company->company_logo);
+            }
+            // Store new logo
+            $data['company_logo'] = $request->file('company_logo')->store('company/logos', 'public');
+        }
+
+        // Handle favicon upload
+        if ($request->hasFile('company_favicon')) {
+            // Delete old favicon if exists
+            if ($company->company_favicon) {
+                Storage::disk('public')->delete($company->company_favicon);
+            }
+            // Store new favicon
+            $data['company_favicon'] = $request->file('company_favicon')->store('company/favicons', 'public');
+        }
+
+        if ($company->exists) {
+            $company->update($data);
+        } else {
+            $company->fill($data);
+            $company->save();
+        }
 
         return redirect()->route('team.settings.company.index')
             ->with('success', 'Company settings updated successfully.');
