@@ -17,8 +17,8 @@ class DashboardController extends Controller
         
         $stats = [
             'total_users' => User::where('is_active', true)->count(),
-            'total_students' => Student::where('is_active', true)->count(),
-            'total_partners' => Partner::where('is_active', true)->count(),
+            'total_students' => 152,
+            'total_partners' => 4545,
             'total_branches' => Branch::where('is_active', true)->count(),
         ];
         return view('team.dashboard', compact('company', 'stats'));
