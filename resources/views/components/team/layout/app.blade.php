@@ -15,6 +15,7 @@
         'resources/css/team/vendors/apexcharts.css',
         'resources/css/team/vendors/styles.bundle.css',
         'resources/css/team/styles.css',
+        'resources/css/app.css',
     ])
     
     @stack('styles')

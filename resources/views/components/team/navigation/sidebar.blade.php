@@ -25,6 +25,41 @@
                     :hasSubmenu="false">            
                 </x-team.navigation.sidebar-menu-item>
                 
+                <x-team.navigation.sidebar-heading label="Lead Management" />
+
+                <x-team.navigation.sidebar-menu-item 
+                    icon="ki-filled ki-people" 
+                    label="Leads" 
+                    route="team.leads.index"
+                    :hasSubmenu="false">
+                </x-team.navigation.sidebar-menu-item>
+                
+                
+                <x-team.navigation.sidebar-heading label="Coaching Management" />
+
+                <x-team.navigation.sidebar-menu-item 
+                    icon="ki-filled ki-abstract-37" 
+                    label="Demo" 
+                    route="team.demo.index"
+                    :hasSubmenu="false">
+                </x-team.navigation.sidebar-menu-item>
+
+                <x-team.navigation.sidebar-menu-item 
+                    icon="ki-filled ki-book-open" 
+                    label="Coachings" 
+                    route="team.coachings.index"
+                    :hasSubmenu="false">
+                </x-team.navigation.sidebar-menu-item>
+
+                <x-team.navigation.sidebar-heading label="Visa Filing" />
+
+                <x-team.navigation.sidebar-menu-item 
+                    icon="ki-filled ki-bank" 
+                    label="Student Visa" 
+                    route="team.student-visa.index"
+                    :hasSubmenu="false">
+                </x-team.navigation.sidebar-menu-item>
+
                 {{-- Settings Section --}}
                 <x-team.navigation.sidebar-heading label="Settings" />
                 

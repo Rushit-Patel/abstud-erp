@@ -15,22 +15,37 @@
 @php
 if ($route && \Route::has($route)) {
     $href = route($route);
+} elseif ($url) {
+    $href = $url;
 } else {
     $href = "#";
 }
 
-$isActive = $active === true || ($active && request()->routeIs($active));
+// Enhanced active state detection
+$isActive = false;
+if ($active === true) {
+    $isActive = true;
+} elseif (is_string($active) && $active) {
+    $isActive = request()->routeIs($active);
+} elseif ($route && \Route::has($route)) {
+    $isActive = request()->routeIs($route) || request()->url() === route($route);
+} elseif ($url) {
+    $isActive = request()->url() === $url || request()->fullUrl() === $url;
+}
+
 $classes = [
     'kt-menu-link',
+    'flex',
     'border border-transparent',
     'items-center',
     'grow',
     $hasSubmenu ? 'cursor-pointer' : '',
-    $isActive ? 'kt-menu-item-active:bg-accent/60 dark:menu-item-active:border-border kt-menu-item-active:rounded-lg' : '',
     'hover:bg-accent/60 hover:rounded-lg',
     'gap-[' . ($isSubmenuItem ? '14px' : '10px') . ']',
     'ps-[10px] pe-[10px]',
-    'py-[' . ($hasSubmenu && !$isSubmenuItem ? '6px' : '8px') . ']'
+    'py-[' . ($hasSubmenu && !$isSubmenuItem ? '6px' : '8px') . ']',
+    // Add active classes directly when active
+    $isActive ? 'bg-accent/60 rounded-lg border-border' : ''
 ];
 $linkClasses = implode(' ', array_filter($classes));
 @endphp
@@ -44,15 +59,15 @@ $linkClasses = implode(' ', array_filter($classes));
         {{-- Menu item with submenu --}}
         <div class="{{ $linkClasses }}" tabindex="0">
             @if($icon && !$isSubmenuItem)
-                <span class="kt-menu-icon items-start text-muted-foreground w-[20px]">
+                <span class="kt-menu-icon items-start w-[20px] {{ $isActive ? 'text-primary' : 'text-muted-foreground' }}">
                     <i class="{{ $icon }} text-lg"></i>
                 </span>
             @elseif($isSubmenuItem)
-                <span class="kt-menu-bullet flex w-[6px] -start-[3px] rtl:start-0 relative before:absolute before:top-0 before:size-[6px] before:rounded-full rtl:before:translate-x-1/2 before:-translate-y-1/2 kt-menu-item-active:before:bg-primary kt-menu-item-hover:before:bg-primary">
+                <span class="kt-menu-bullet flex w-[6px] -start-[3px] rtl:start-0 relative before:absolute before:top-0 before:size-[6px] before:rounded-full rtl:before:translate-x-1/2 before:-translate-y-1/2 {{ $isActive ? 'before:bg-primary' : 'before:bg-muted-foreground/30' }}">
                 </span>
             @endif
             
-            <span class="kt-menu-title text-{{ $isSubmenuItem ? '2sm' : 'sm' }} font-{{ $isSubmenuItem ? 'normal' : 'medium' }} {{ $isSubmenuItem ? 'me-1' : '' }} text-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-{{ $isSubmenuItem ? 'medium' : 'semibold' }} kt-menu-link-hover:!text-primary">
+            <span class="kt-menu-title text-{{ $isSubmenuItem ? '2sm' : 'sm' }} font-{{ $isSubmenuItem ? 'normal' : 'medium' }} {{ $isSubmenuItem ? 'me-1' : '' }} text-foreground kt-menu-link-hover:!text-primary {{ $isActive ? 'text-primary font-semibold' : '' }}">
                 {{ $label }}
             </span>
             
@@ -80,15 +95,15 @@ $linkClasses = implode(' ', array_filter($classes));
         {{-- Regular menu link --}}
         <a class="{{ $linkClasses }}" href="{{ $href }}" target="{{ $target }}" tabindex="0">
             @if($icon && !$isSubmenuItem)
-                <span class="kt-menu-icon items-start text-muted-foreground w-[20px]">
+                <span class="kt-menu-icon items-start w-[20px] {{ $isActive ? 'text-primary' : 'text-muted-foreground' }}">
                     <i class="{{ $icon }} text-lg"></i>
                 </span>
             @elseif($isSubmenuItem)
-                <span class="kt-menu-bullet flex w-[6px] -start-[3px] rtl:start-0 relative before:absolute before:top-0 before:size-[6px] before:rounded-full rtl:before:translate-x-1/2 before:-translate-y-1/2 kt-menu-item-active:before:bg-primary kt-menu-item-hover:before:bg-primary">
+                <span class="kt-menu-bullet flex w-[6px] -start-[3px] rtl:start-0 relative before:absolute before:top-0 before:size-[6px] before:rounded-full rtl:before:translate-x-1/2 before:-translate-y-1/2 {{ $isActive ? 'before:bg-primary' : 'before:bg-muted-foreground/30' }}">
                 </span>
             @endif
             
-            <span class="kt-menu-title text-{{ $isSubmenuItem ? '2sm' : 'sm' }} font-{{ $isSubmenuItem ? 'normal' : 'medium' }} text-foreground kt-menu-item-active:text-primary kt-menu-item-active:font-semibold kt-menu-link-hover:!text-primary">
+            <span class="kt-menu-title text-{{ $isSubmenuItem ? '2sm' : 'sm' }} font-{{ $isSubmenuItem ? 'normal' : 'medium' }} text-foreground kt-menu-link-hover:!text-primary {{ $isActive ? 'text-primary font-semibold' : '' }}">
                 {{ $label }}
             </span>
             

@@ -8,9 +8,9 @@
 
 <div class="kt-card {{ $cardClass }}">
     @if($title || isset($header))
-        <div class="kt-card-header {{ $headerClass }}">
+        <div class="kt-card-header  {{ $headerClass }}">
             @if($title)
-                <h3 class="kt-card-title">
+                <h3 class="kt-card-title text-primary">
                     {{ $title }}
                 </h3>
             @endif
