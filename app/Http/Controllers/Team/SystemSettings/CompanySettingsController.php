@@ -79,7 +79,6 @@ class CompanySettingsController extends Controller
             $company->fill($data);
             $company->save();
         }
-
         return redirect()->route('team.settings.company.index')
             ->with('success', 'Company settings updated successfully.');
     }
