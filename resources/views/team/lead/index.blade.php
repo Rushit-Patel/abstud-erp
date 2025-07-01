@@ -190,6 +190,8 @@
     @push('scripts')
         @vite([
             'resources/js/team/vendors/dataTables.min.js',
+            'resources/js/team/vendors/buttons.dataTables.js',
+            'resources/js/team/vendors/dataTables.buttons.js'
         ])
         {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
     @endpush

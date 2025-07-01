@@ -40,6 +40,14 @@ class Branch extends Model
     }
 
     /**
+     * Scope: Get only active branches
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
      * Generate unique branch code
      */
     public static function generateBranchCode(): string

@@ -241,33 +241,33 @@ $breadcrumbs = [
                                     </div>
                                 </div>
                             </x-team.card>
+                            <!-- Setup Status -->
+                            <x-team.card title="Setup Status" cardClass="">
+                                <div class="flex items-center gap-3">
+                                    <x-team.forms.checkbox
+                                        name="is_setup_completed"
+                                        label="Mark company setup as completed"
+                                        :checked="$company && $company->is_setup_completed"
+                                    />
+                                    <div class="text-sm text-muted-foreground">
+                                        Check this when all required company information has been configured
+                                    </div>
+                                </div>
+                            </x-team.card>
                         </div>
                     </div>
                 </div>
-
-                <!-- Setup Status -->
-                <x-team.card title="Setup Status" cardClass="mt-5">
-                    <div class="flex items-center gap-3">
-                        <x-team.forms.checkbox
-                            name="is_setup_completed"
-                            label="Mark company setup as completed"
-                            :checked="$company && $company->is_setup_completed"
-                        />
-                        <div class="text-sm text-muted-foreground">
-                            Check this when all required company information has been configured
-                        </div>
-                    </div>
-                </x-team.card>
-
                 <!-- Form Actions -->
-                <div class="flex justify-end gap-2.5 mt-7.5">
+                <div class=" flex justify-end gap-2.5 mt-7.5 mb-7.5 ">
+                    <div>
+                        <x-team.forms.button type="submit">
+                            <i class="ki-filled ki-check"></i>
+                            Update Company Settings
+                        </x-team.forms.button>
+                    </div>
                     <a href="{{ route('team.settings.company.index') }}" class="kt-btn kt-btn-secondary">
                         Cancel
                     </a>
-                    <x-team.forms.button type="submit">
-                        <i class="ki-filled ki-check"></i>
-                        Update Company Settings
-                    </x-team.forms.button>
                 </div>
             </form>
         </div>

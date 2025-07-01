@@ -5,7 +5,7 @@
     'showLogo' => true,
     'showUserMenu' => true,
     'showNotifications' => true,
-    'showChat' => true,
+    'showChat' => false,
     'showApps' => true,
     'showDarkMode' => true,
     'showMobileMenu' => true,
@@ -48,7 +48,7 @@
 
             @if($showChat)
                 <!-- Chat -->
-                <x-team.layout.chat />
+                {{-- <x-team.layout.chat /> --}}
                 <!-- End of Chat -->
             @endif
 

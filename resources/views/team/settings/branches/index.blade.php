@@ -26,6 +26,53 @@ $breadcrumbs = [
                 </div>
             </div>
 
+            <div class="grid lg:grid-cols-4 gap-5 mb-7.5">
+                <div class="kt-card">
+                    <div class="kt-card-content flex items-center justify-between">
+                        <div>
+                            <h3 class="text-sm font-medium text-secondary-foreground">Total Branches</h3>
+                            <p class="text-2xl font-bold">{{ $branches->total() }}</p>
+                        </div>
+                        <div class="kt-badge kt-badge-primary kt-badge-lg">
+                            <i class="ki-filled ki-geolocation text-lg"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="kt-card">
+                    <div class="kt-card-content flex items-center justify-between">
+                        <div>
+                            <h3 class="text-sm font-medium text-secondary-foreground">Active Branches</h3>
+                            <p class="text-2xl font-bold text-success">{{ $branches->where('is_active', true)->count() }}</p>
+                        </div>
+                        <div class="kt-badge kt-badge-success kt-badge-lg">
+                            <i class="ki-filled ki-check text-lg"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="kt-card">
+                    <div class="kt-card-content flex items-center justify-between">
+                        <div>
+                            <h3 class="text-sm font-medium text-secondary-foreground">Inactive Branches</h3>
+                            <p class="text-2xl font-bold text-danger">{{ $branches->where('is_active', false)->count() }}</p>
+                        </div>
+                        <div class="kt-badge kt-badge-danger kt-badge-lg">
+                            <i class="ki-filled ki-cross text-lg"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="kt-card">
+                    <div class="kt-card-content flex items-center justify-between">
+                        <div>
+                            <h3 class="text-sm font-medium text-secondary-foreground">Main Branch</h3>
+                            <p class="text-2xl font-bold text-info">{{ $branches->where('is_main_branch', true)->count() }}</p>
+                        </div>
+                        <div class="kt-badge kt-badge-info kt-badge-lg">
+                            <i class="ki-filled ki-star text-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="kt-card">
                 <div class="kt-card-header">
                     <h3 class="kt-card-title">Branches</h3>
@@ -46,6 +93,7 @@ $breadcrumbs = [
                             <table class="kt-table">
                                 <thead>
                                     <tr>
+                                        <th>Code</th>
                                         <th>Name</th>
                                         <th>Address</th>
                                         <th>Phone</th>
@@ -57,7 +105,8 @@ $breadcrumbs = [
                                 <tbody>
                                     @foreach($branches as $branch)
                                         <tr>
-                                            <td>{{ $branch->name }}</td>
+                                            <td>{{ $branch->branch_code }}</td>
+                                            <td>{{ $branch->branch_name }}</td>
                                             <td>{{ $branch->address ?: 'Not set' }}</td>
                                             <td>{{ $branch->phone ?: 'Not set' }}</td>
                                             <td>{{ $branch->email ?: 'Not set' }}</td>
@@ -76,8 +125,7 @@ $breadcrumbs = [
                                                     <form method="POST" action="{{ route('team.settings.branches.destroy', $branch) }}" class="inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="kt-btn kt-btn-sm kt-btn-icon kt-btn-ghost text-danger" 
-                                                                onclick="return confirm('Are you sure you want to delete this branch?')">
+                                                        <button type="submit" class="kt-btn kt-btn-sm kt-btn-icon kt-btn-ghost text-danger">
                                                             <i class="ki-filled ki-trash"></i>
                                                         </button>
                                                     </form>
@@ -99,4 +147,17 @@ $breadcrumbs = [
             </div>
         </div>
     </x-slot>
+
+    @push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Branch-specific functionality can go here
+            // Global toast handling is now managed in the app layout
+            
+            // Example of using global toast utilities:
+            // window.showToast.success('Custom success message');
+            // window.showToast.error('Custom error message');
+        });
+    </script>
+    @endpush
 </x-team.layout.app>

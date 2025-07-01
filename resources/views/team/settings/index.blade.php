@@ -32,7 +32,7 @@ $breadcrumbs = [
                     icon="ki-geolocation" 
                     title="Manage Branch" 
                     description="Add, edit, and organize branch locations, assign managers, and configure branch-specific settings."
-                    link="#"
+                    link="{{ route('team.settings.branches.index') ?? '#' }}"
                 />
                 
                 {{-- Manage User Account Card --}}
@@ -40,7 +40,7 @@ $breadcrumbs = [
                     icon="ki-profile-circle" 
                     title="Manage User Account" 
                     description="Control user permissions, roles, account settings, and access management for team members."
-                    link="#"
+                    link="{{ route('team.settings.users.index') ?? '#' }}"
                 />
             </div>
         </div>

@@ -3,6 +3,8 @@
 use App\Http\Controllers\Team\SystemSettings\SystemSettingsController;
 use App\Http\Controllers\Team\SystemSettings\CompanySettingsController;
 use App\Http\Controllers\Team\SystemSettings\BranchesController;
+use App\Http\Controllers\Team\SystemSettings\UsersController;
+use App\Http\Controllers\Team\SystemSettings\RolesController;
 use Illuminate\Support\Facades\Route;
 
 // System Settings Routes - Master Administration Panel
@@ -25,16 +27,16 @@ Route::prefix('settings')->name('settings.')->group(function () {
         ->only(['index', 'create', 'store', 'edit', 'update', 'destroy'])
         ->names('branches');
         
-    // User Management (placeholder routes)
-    Route::prefix('users')->name('users.')->group(function () {
-        Route::get('/', function () {
-            return view('team.settings.users.index');
-        })->name('index');
-        Route::get('create', function () {
-            return view('team.settings.users.create');
-        })->name('create');
-        Route::get('{id}/edit', function ($id) {
-            return view('team.settings.users.edit', compact('id'));
-        })->name('edit');
-    });
+    // Role Management  
+    Route::resource('roles', RolesController::class)
+        ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'])
+        ->names('roles');
+        
+    // User Management
+    Route::resource('users', UsersController::class)
+        ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'])
+        ->names('users');
+    Route::patch('users/{user}/toggle-status', [UsersController::class, 'toggleStatus'])
+        ->name('users.toggle-status');
+        
 });

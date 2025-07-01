@@ -1,127 +1,65 @@
 {{-- Apps Menu Component --}}
 @props(['appData' => []])
-<div data-kt-dropdown="true" data-kt-dropdown-offset="10px, 10px" data-kt-dropdown-offset-rtl="-10px, 10px" data-kt-dropdown-placement="bottom-end" data-kt-dropdown-placement-rtl="bottom-start">
-     <button class="kt-btn kt-btn-ghost kt-btn-icon size-9 rounded-full hover:bg-primary/10 hover:[&amp;_i]:text-primary kt-dropdown-open:bg-primary/10 kt-dropdown-open:[&amp;_i]:text-primary" data-kt-dropdown-toggle="true">
+<div data-kt-dropdown="true" data-kt-dropdown-offset="10px, 10px" data-kt-dropdown-offset-rtl="-10px, 10px"
+     data-kt-dropdown-placement="bottom-end" data-kt-dropdown-placement-rtl="bottom-start">
+     <button
+          class="kt-btn kt-btn-ghost kt-btn-icon size-9 rounded-full hover:bg-primary/10 hover:[&amp;_i]:text-primary kt-dropdown-open:bg-primary/10 kt-dropdown-open:[&amp;_i]:text-primary"
+          data-kt-dropdown-toggle="true">
           <i class="ki-filled ki-element-11 text-lg"></i>
      </button>
      <div class="kt-dropdown-menu p-0 w-screen max-w-[320px]" data-kt-dropdown-menu="true">
           <div
                class="flex items-center justify-between gap-2.5 text-xs text-secondary-foreground font-medium px-5 py-3 border-b border-b-border">
                <span>
-                    Apps
-               </span>
-               <span>
-                    Enabled
+                    Quick Access
                </span>
           </div>
-          <div class="flex flex-col kt-scrollable-y-auto max-h-[400px] divide-y divide-border">
-               <div class="flex items-center justify-between flex-wrap gap-2 px-5 py-3.5">
-                    <div class="flex items-center flex-wrap gap-2">
-                         <div
-                              class="flex items-center justify-center shrink-0 rounded-full bg-accent/60 border border-border size-10">
-                              <img alt="" class="size-6"
-                                   src="https://keenthemes.com/static/metronic/tailwind/dist/assets/media/brand-logos/jira.svg">
-                              </img>
+          <div class="flex flex-col kt-scrollable-y-auto max-h-[400px] divide-y divide-border p-4">
+               <div class="lg:col-span-1">
+                    <div class="grid grid-cols-2 gap-2 lg:gap-4 h-full items-stretch">
+                         <style>
+                              .channel-stats-bg {
+                                   background-image: url('default/images/2600x1600/bg-3.png');
+                              }
+
+                              .dark .channel-stats-bg {
+                                   background-image: url('default/images/2600x1600/bg-3-dark.png');
+                              }
+                         </style>
+                         <div class="kt-card flex-col justify-between gap-4 h-full bg-cover rtl:bg-[left_top_-1.7rem] bg-[right_top_-1.7rem] bg-no-repeat channel-stats-bg">
+                              <i class="ki-filled ki-user-edit w-7 mt-4 ms-5 text-2xl text-primary"></i>
+                              <div class="flex flex-col gap-1 pb-4 px-5">
+                                   <span class="text-1xl font-semibold text-mono">
+                                        Add Lead
+                                   </span>
+                              </div>
                          </div>
-                         <div class="flex flex-col">
-                              <a class="text-sm font-semibold text-mono hover:text-primary" href="#">
-                                   Jira
-                              </a>
-                              <span class="text-xs font-medium text-secondary-foreground">
-                                   Project management
-                              </span>
+                         <div class="kt-card flex-col justify-between gap-4 h-full bg-cover rtl:bg-[left_top_-1.7rem] bg-[right_top_-1.7rem] bg-no-repeat channel-stats-bg">
+                              <i class="ki-filled ki-watch w-7 mt-4 ms-5 text-2xl text-primary"></i>
+                              <div class="flex flex-col gap-1 pb-4 px-5">
+                                   <span class="text-1xl font-semibold text-mono">
+                                        Task
+                                   </span>
+                              </div>
                          </div>
-                    </div>
-                    <div class="flex items-center gap-2 lg:gap-5">
-                         <input class="kt-switch" type="checkbox" value="1" />
+                         <div class="kt-card flex-col justify-between gap-4 h-full bg-cover rtl:bg-[left_top_-1.7rem] bg-[right_top_-1.7rem] bg-no-repeat channel-stats-bg">
+                              <i class="ki-filled ki-message-question w-7 mt-4 ms-5 text-2xl text-primary"></i>
+                              <div class="flex flex-col gap-1 pb-4 px-5">
+                                   <span class="text-1xl font-semibold text-mono">
+                                        Todo
+                                   </span>
+                              </div>
+                         </div>
+                         <div class="kt-card flex-col justify-between gap-4 h-full bg-cover rtl:bg-[left_top_-1.7rem] bg-[right_top_-1.7rem] bg-no-repeat channel-stats-bg">
+                              <i class="ki-filled ki-calendar w-7 mt-4 ms-5 text-2xl text-primary"></i>
+                              <div class="flex flex-col gap-1 pb-4 px-5">
+                                   <span class="text-1xl font-semibold text-mono">
+                                        Calendar
+                                   </span>
+                              </div>
+                         </div>
                     </div>
                </div>
-               <div class="flex items-center justify-between flex-wrap gap-2 px-5 py-3.5">
-                    <div class="flex items-center flex-wrap gap-2">
-                         <div
-                              class="flex items-center justify-center shrink-0 rounded-full bg-accent/60 border border-border size-10">
-                              <img alt="" class="size-6"
-                                   src="https://keenthemes.com/static/metronic/tailwind/dist/assets/media/brand-logos/inferno.svg">
-                              </img>
-                         </div>
-                         <div class="flex flex-col">
-                              <a class="text-sm font-semibold text-mono hover:text-primary" href="#">
-                                   Inferno
-                              </a>
-                              <span class="text-xs font-medium text-secondary-foreground">
-                                   Ensures healthcare app
-                              </span>
-                         </div>
-                    </div>
-                    <div class="flex items-center gap-2 lg:gap-5">
-                         <input checked="" class="kt-switch" type="checkbox" value="1" />
-                    </div>
-               </div>
-               <div class="flex items-center justify-between flex-wrap gap-2 px-5 py-3.5">
-                    <div class="flex items-center flex-wrap gap-2">
-                         <div
-                              class="flex items-center justify-center shrink-0 rounded-full bg-accent/60 border border-border size-10">
-                              <img alt="" class="size-6"
-                                   src="https://keenthemes.com/static/metronic/tailwind/dist/assets/media/brand-logos/evernote.svg" />
-                         </div>
-                         <div class="flex flex-col">
-                              <a class="text-sm font-semibold text-mono hover:text-primary" href="#">
-                                   Evernote
-                              </a>
-                              <span class="text-xs font-medium text-secondary-foreground">
-                                   Notes management app
-                              </span>
-                         </div>
-                    </div>
-                    <div class="flex items-center gap-2 lg:gap-5">
-                         <input checked="" class="kt-switch" type="checkbox" value="1" />
-                    </div>
-               </div>
-               <div class="flex items-center justify-between flex-wrap gap-2 px-5 py-3.5">
-                    <div class="flex items-center flex-wrap gap-2">
-                         <div
-                              class="flex items-center justify-center shrink-0 rounded-full bg-accent/60 border border-border size-10">
-                              <img alt="" class="size-6"
-                                   src="https://keenthemes.com/static/metronic/tailwind/dist/assets/media/brand-logos/gitlab.svg" />
-                         </div>
-                         <div class="flex flex-col">
-                              <a class="text-sm font-semibold text-mono hover:text-primary" href="#">
-                                   Gitlab
-                              </a>
-                              <span class="text-xs font-medium text-secondary-foreground">
-                                   DevOps platform
-                              </span>
-                         </div>
-                    </div>
-                    <div class="flex items-center gap-2 lg:gap-5">
-                         <input class="kt-switch" type="checkbox" value="1" />
-                    </div>
-               </div>
-               <div class="flex items-center justify-between flex-wrap gap-2 px-5 py-3.5">
-                    <div class="flex items-center flex-wrap gap-2">
-                         <div
-                              class="flex items-center justify-center shrink-0 rounded-full bg-accent/60 border border-border size-10">
-                              <img alt="" class="size-6"
-                                   src="https://keenthemes.com/static/metronic/tailwind/dist/assets/media/brand-logos/google-webdev.svg" />
-                         </div>
-                         <div class="flex flex-col">
-                              <a class="text-sm font-semibold text-mono hover:text-primary" href="#">
-                                   Google webdev
-                              </a>
-                              <span class="text-xs font-medium text-secondary-foreground">
-                                   Building web expierences
-                              </span>
-                         </div>
-                    </div>
-                    <div class="flex items-center gap-2 lg:gap-5">
-                         <input checked="" class="kt-switch" type="checkbox" value="1" />
-                    </div>
-               </div>
-          </div>
-          <div class="grid p-5 border-t border-t-border">
-               <a class="kt-btn kt-btn-outline justify-center" href="../account/integrations.html">
-                    Go to Apps
-               </a>
           </div>
      </div>
 </div>
