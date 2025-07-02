@@ -66,7 +66,7 @@ $breadcrumbs = [
                             :value="old('phone', $user->phone)" />
 
                         <!-- Branch -->
-                        <x-team.forms.select-picker
+                        <x-team.forms.select
                             name="branch_id"
                             label="Branch"
                             :options="$branches"
@@ -76,7 +76,7 @@ $breadcrumbs = [
                             :searchable="true" />
 
                         <!-- Role -->
-                        <x-team.forms.select-picker
+                        <x-team.forms.select
                             name="role_id"
                             label="Role"
                             :options="$roles"
@@ -101,14 +101,10 @@ $breadcrumbs = [
 
                         <!-- Status -->
                         <div class="lg:col-span-2">
-                            <div class="flex items-center gap-3">
-                                <input type="checkbox" id="is_active" name="is_active" class="kt-checkbox" 
-                                       {{ old('is_active', $user->is_active) ? 'checked' : '' }}>
-                                <label for="is_active" class="kt-form-label mb-0">
-                                    Active User
-                                    <span class="text-sm text-secondary-foreground block">User can login and access the system</span>
-                                </label>
-                            </div>
+                            <x-team.forms.checkbox 
+                                name="is_active" 
+                                label="Active User - User can login and access the system" 
+                                :checked="old('is_active', $user->is_active)" />
                         </div>
                     </div>
                 </div>
@@ -118,10 +114,10 @@ $breadcrumbs = [
                         <a href="{{ route('team.settings.users.show', $user) }}" class="kt-btn kt-btn-secondary">
                             Cancel
                         </a>
-                        <button type="submit" class="kt-btn kt-btn-primary">
+                        <x-team.forms.button type="submit">
                             <i class="ki-filled ki-check"></i>
                             Update User
-                        </button>
+                        </x-team.forms.button>
                     </div>
                 </div>
             </form>

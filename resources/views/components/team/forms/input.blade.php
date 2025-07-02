@@ -8,8 +8,8 @@
     'value' => '',
     'icon' => null
 ])
-<div class="flex flex-col gap-1">
-    <label for="{{ $name }}" class="kt-form-label font-normal text-mono">
+<div class="flex flex-col gap-1.5">
+    <label for="{{ $name }}" class="kt-form-label text-mono">
         {{ $label }}
         @if($required)
             <span class="text-destructive">*</span>

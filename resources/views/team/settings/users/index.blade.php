@@ -38,45 +38,41 @@ $breadcrumbs = [
                 <div class="kt-card-content">
                     <form method="GET" action="{{ route('team.settings.users.index') }}" class="grid lg:grid-cols-4 gap-5">
                         <div>
-                            <label class="kt-form-label">Search</label>
-                            <input type="text" name="search" class="kt-input" placeholder="Name, email, phone..." 
-                                   value="{{ request('search') }}">
+                            <x-team.forms.input 
+                                name="search" 
+                                label="Search" 
+                                placeholder="Name, email, phone..." 
+                                :value="request('search')" />
                         </div>
                         <div>
-                            <label class="kt-form-label">Branch</label>
-                            <select name="branch_id" class="kt-select">
-                                <option value="">All Branches</option>
-                                @foreach($branches as $branch)
-                                    <option value="{{ $branch->id }}" {{ request('branch_id') == $branch->id ? 'selected' : '' }}>
-                                        {{ $branch->branch_name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <x-team.forms.select
+                                name="branch_id"
+                                label="Branch"
+                                :options="$branches"
+                                :selected="request('branch_id')"
+                                placeholder="All Branches" />
                         </div>
                         <div>
-                            <label class="kt-form-label">Role</label>
-                            <select name="role" class="kt-select">
-                                <option value="">All Roles</option>
-                                @foreach($roles as $role)
-                                    <option value="{{ $role->name }}" {{ request('role') == $role->name ? 'selected' : '' }}>
-                                        {{ $role->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <x-team.forms.select
+                                name="role"
+                                label="Role"
+                                :options="$roles->pluck('name', 'name')"
+                                :selected="request('role')"
+                                placeholder="All Roles" />
                         </div>
                         <div>
-                            <label class="kt-form-label">Status</label>
-                            <select name="status" class="kt-select">
-                                <option value="">All Status</option>
-                                <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
-                                <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                            </select>
+                            <x-team.forms.select
+                                name="status"
+                                label="Status"
+                                :options="['active' => 'Active', 'inactive' => 'Inactive']"
+                                :selected="request('status')"
+                                placeholder="All Status" />
                         </div>
-                        <div class="lg:col-span-4 flex justify-end">
-                            <button type="submit" class="kt-btn kt-btn-primary">
+                        <div class="lg:col-span-1 flex justify-end">
+                            <x-team.forms.button type="submit">
                                 <i class="ki-filled ki-magnifier"></i>
                                 Search
-                            </button>
+                            </x-team.forms.button>
                         </div>
                     </form>
                 </div>
@@ -117,19 +113,26 @@ $breadcrumbs = [
                         </div>
                     </div>
                 </div>
-                <div class="kt-card">
-                    <div class="kt-card-content flex items-center justify-between">
-                        <div>
-                            <h3 class="text-sm font-medium text-secondary-foreground">Admin Users</h3>
-                            <p class="text-2xl font-bold text-info">{{ $users->filter(fn($user) => $user->isAdmin())->count() }}</p>
-                        </div>
-                        <div class="kt-badge kt-badge-info kt-badge-lg">
-                            <i class="ki-filled ki-crown text-lg"></i>
+                <style>
+                    .add-new-bg {
+                        background-image: url('/default/images/2600x1600/bg-3.png');
+                    }
+                    .dark .add-new-bg {
+                        background-image: url('/default/images/2600x1600/bg-3-dark.png');
+                    }
+                </style>
+                <a class="kt-card border-2 border-dashed border-primary/10 bg-center bg-[length:200px] bg-no-repeat add-new-bg" href="{{ route('team.settings.roles.index') }}">
+                    <div class="kt-card-content grid items-center">
+                        <div class="grid gap-1">
+                            <div class="grid grid-cols-1 text-center">
+                                <span class="text-lg font-medium text-mono hover:text-primary mb-px">
+                                   Role And Permissions 
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
-
             <!-- Users Table -->
             <div class="kt-card">
                 <div class="kt-card-header">

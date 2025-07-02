@@ -17,7 +17,8 @@ $breadcrumbs = [
                     </div>
                 </div>
             </div>
-        </div>        <div class="kt-container-fixed">
+        </div>
+        <div class="kt-container-fixed">
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5 lg:gap-7.5">
                 {{-- Company Info Card --}}
                 <x-team.cards.setting-card 
@@ -41,6 +42,28 @@ $breadcrumbs = [
                     title="Manage User Account" 
                     description="Control user permissions, roles, account settings, and access management for team members."
                     link="{{ route('team.settings.users.index') ?? '#' }}"
+                />
+            </div>
+            <div class="flex grow justify-center pt-5 pb-5 lg:pt-7.5 lg:pb-7.5">
+                <a class="kt-link kt-link-underlined kt-link-dashed" href="javaScript:void(0);">
+                    Other Master Settings
+                </a>
+            </div>
+            <div class="grid sm:grid-cols-4 xl:grid-cols-6 gap-5 mb-2">
+                <x-team.cards.setting-sm-card 
+                    title="Country" 
+                    icon="geolocation"
+                    link="{{ route('team.settings.countries.index') ?? '#' }}"
+                />
+                <x-team.cards.setting-sm-card 
+                    title="State" 
+                    icon="map"
+                    link="{{ route('team.settings.states.index') ?? '#' }}"
+                />
+                <x-team.cards.setting-sm-card 
+                    title="City" 
+                    icon="map"
+                    link="{{ route('team.settings.cities.index') ?? '#' }}"
                 />
             </div>
         </div>

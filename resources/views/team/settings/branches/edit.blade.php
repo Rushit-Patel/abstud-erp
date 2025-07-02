@@ -159,10 +159,10 @@ $breadcrumbs = [
                         <a href="{{ route('team.settings.branches.index') }}" class="kt-btn kt-btn-secondary">
                             Cancel
                         </a>
-                        <button type="submit" class="kt-btn kt-btn-primary">
+                        <x-team.forms.button type="submit">
                             <i class="ki-filled ki-check"></i>
                             Update Branch
-                        </button>
+                        </x-team.forms.button>
                     </div>
                 </div>
             </form>

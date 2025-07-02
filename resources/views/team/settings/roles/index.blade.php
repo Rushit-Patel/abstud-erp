@@ -19,10 +19,31 @@ $breadcrumbs = [
                     </div>
                 </div>
                 <div class="flex items-center gap-2.5">
-                    <a href="{{ route('team.settings.roles.create') }}" class="kt-btn kt-btn-primary">
+                    <a href="{{ route('team.settings.roles.create', ['guard' => $guard]) }}" class="kt-btn kt-btn-primary">
                         <i class="ki-filled ki-plus"></i>
                         Add Role
                     </a>
+                </div>
+            </div>
+
+            <!-- Guard Tabs -->
+            <div class="kt-card mb-5">
+                <div class="kt-card-content p-4">
+                    <div class="flex gap-2">
+                        @foreach($guards as $guardKey => $guardName)
+                            <a href="{{ route('team.settings.roles.index', ['guard' => $guardKey]) }}" 
+                               class="kt-btn {{ $guard === $guardKey ? 'kt-btn-primary' : 'kt-btn-secondary' }}">
+                                {{ $guardName }}
+                                @if($guardKey === 'web')
+                                    <i class="ki-filled ki-shield-check"></i>
+                                @elseif($guardKey === 'student')
+                                    <i class="ki-filled ki-user"></i>
+                                @elseif($guardKey === 'partner')
+                                    <i class="ki-filled ki-handshake"></i>
+                                @endif
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
             </div>
 
@@ -31,17 +52,19 @@ $breadcrumbs = [
                 <div class="kt-card-content">
                     <form method="GET" class="flex flex-wrap items-center gap-4">
                         <div class="flex-1 min-w-64">
-                            <input type="text" name="search" placeholder="Search roles..." 
-                                   value="{{ request('search') }}" 
-                                   class="kt-input">
+                            <x-team.forms.input 
+                                name="search" 
+                                placeholder="Search roles..." 
+                                :value="request('search')" 
+                                label="" />
                         </div>
                         <div class="flex gap-2">
-                            <button type="submit" class="kt-btn kt-btn-primary">
+                            <x-team.forms.button type="submit">
                                 <i class="ki-filled ki-magnifier"></i>
                                 Search
-                            </button>
+                            </x-team.forms.button>
                             @if(request()->hasAny(['search']))
-                                <a href="{{ route('team.settings.roles.index') }}" class="kt-btn kt-btn-secondary">
+                                <a href="{{ route('team.settings.roles.index', ['guard' => $guard]) }}" class="kt-btn kt-btn-secondary">
                                     <i class="ki-filled ki-cross"></i>
                                     Clear
                                 </a>
