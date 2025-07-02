@@ -34,6 +34,8 @@ class ImportLocationData extends Command
      */
     public function handle()
     {
+        ini_set('memory_limit', '512M'); 
+
         $importCountries = $this->option('countries') || (!$this->option('states') && !$this->option('cities'));
         $importStates = $this->option('states') || (!$this->option('countries') && !$this->option('cities'));
         $importCities = $this->option('cities') || (!$this->option('countries') && !$this->option('states'));
@@ -171,6 +173,7 @@ class ImportLocationData extends Command
 
     private function importCities()
     {
+        ini_set('memory_limit', '512M'); 
         $this->info('Importing cities...');
         
         $jsonPath = database_path('data/cities.json');
