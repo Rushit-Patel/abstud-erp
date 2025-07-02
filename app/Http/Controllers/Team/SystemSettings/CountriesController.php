@@ -5,16 +5,18 @@ namespace App\Http\Controllers\Team\SystemSettings;
 use App\Http\Controllers\Controller;
 use App\Models\Country;
 use Illuminate\Http\Request;
+use App\DataTables\Team\Setting\CountryDataTable;
 
 class CountriesController extends Controller
 {
     /**
      * Display a listing of countries
      */
-    public function index()
+    public function index(CountryDataTable $CountryDataTable)
     {
-        $countries = Country::orderBy('name')->paginate(20);
-        return view('team.settings.countries.index', compact('countries'));
+        // $countries = Country::orderBy('name')->paginate(20);
+        // return view('team.settings.countries.index', compact('countries'));
+        return $CountryDataTable->render('team.settings.countries.index');
     }
 
     /**
