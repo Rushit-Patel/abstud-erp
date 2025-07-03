@@ -98,10 +98,11 @@ class CitiesDataTable extends DataTable
     {
         return e($row?->state?->name);
     }
+
     protected function renderCountry($row): string
     {
-        $iconHtml = $row?->state?->country->icon;
-        return $iconHtml .' &nbsp;'. e($row?->state?->country->name);
+        $iconHtml = '<img src="'.e($row->state?->country->icon).'" alt="'.e($row->state?->country->name).'" class="inline-block size-4.5 rounded" loading="lazy">';
+        return '<span class="ms-auto kt-badge kt-badge-stroke shrink-0">' . $iconHtml .' &nbsp;'. e($row->state?->country->name).'</span>';
     }
     
     protected function renderStatus($row): string

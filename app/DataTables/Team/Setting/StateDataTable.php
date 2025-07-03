@@ -92,11 +92,13 @@ class StateDataTable extends DataTable
     {
         return e($row->name);
     }
+
     protected function renderCountry($row): string
     {
-        $iconHtml = $row->country->icon;
-        return $iconHtml .' &nbsp;'. e($row->country->name);
+        $iconHtml = '<img src="'.e($row->country->icon).'" alt="'.e($row->country->name).'" class="inline-block size-4.5 rounded" loading="lazy">';
+        return '<span class="ms-auto kt-badge kt-badge-stroke shrink-0">' . $iconHtml .' &nbsp;'. e($row->country->name).'</span>';
     }
+
     protected function renderPhoneCode($row): string
     {
         $code = ltrim($row->phone_code, '+'); 

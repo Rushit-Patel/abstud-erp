@@ -92,8 +92,8 @@ class CountryDataTable extends DataTable
 
     protected function renderCountry($row): string
     {
-        $iconHtml = $row->icon;
-        return $iconHtml .' &nbsp;'. e($row->name);
+        $iconHtml = '<img src="'.e($row->icon).'" alt="'.e($row->name).'" class="inline-block size-4.5 rounded" loading="lazy">';
+        return '<span class="ms-auto kt-badge kt-badge-stroke shrink-0">' . $iconHtml .' &nbsp;'. e($row->name).'</span>';
     }
     protected function renderPhoneCode($row): string
     {

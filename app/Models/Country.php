@@ -51,9 +51,27 @@ class Country extends Model
         return $this->phone_code ? '+' . $this->phone_code : '';
     }
 
-    /**
-     * Get the full currency display (code + symbol)
-     */
+
+    public function getIconAttribute(): string
+    {
+        if (empty($this->name)) {
+            return '';
+        }
+        $filename = strtolower(trim($this->name));
+        $filename = preg_replace('/\s+/', '-', $filename); // Replace spaces with hyphens
+        $filename = preg_replace('/-+/', '-', $filename); // Remove multiple consecutive hyphens
+        $filename = trim($filename, '-');
+        
+        $flagPath = "/default/images/flags/{$filename}.svg";
+        
+        // Optional: Check if file exists and provide fallback
+        if (file_exists(public_path($flagPath))) {
+            return asset($flagPath);
+        }
+        return '';
+    }
+    
+
     public function getFullCurrencyAttribute(): string
     {
         $currency = $this->currency ?: '';
