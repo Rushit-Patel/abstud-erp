@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('postal_code')->nullable();
             $table->boolean('is_setup_completed')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

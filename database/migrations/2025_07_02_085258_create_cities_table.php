@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
-            
+            $table->softDeletes();
             // Unique constraint to prevent duplicate city names within the same state
             $table->unique(['state_id', 'name']);
         });
