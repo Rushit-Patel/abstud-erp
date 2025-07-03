@@ -86,6 +86,7 @@
                         type="url"
                         :value="old('website_url')"
                         placeholder="https://www.yourcompany.com"
+                        required="true"
                     />
 
                     <!-- Logo Upload -->

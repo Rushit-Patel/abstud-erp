@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('branches', function (Blueprint $table) {
-            $table->unsignedBigInteger('country_id')->nullable()->after('country');
-            $table->unsignedBigInteger('state_id')->nullable()->after('state');
-            $table->unsignedBigInteger('city_id')->nullable()->after('city');
-            
+            $table->unsignedBigInteger('country_id')->nullable()->after('address');
+            $table->unsignedBigInteger('state_id')->nullable()->after('country_id');
+            $table->unsignedBigInteger('city_id')->nullable()->after('state_id');
+
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('set null');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('set null');
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('set null');

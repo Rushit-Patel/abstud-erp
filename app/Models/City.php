@@ -12,6 +12,7 @@ class City extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'state_id',
         'name',
         'is_active'

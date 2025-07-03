@@ -19,7 +19,9 @@
         name="{{ $name }}" 
         type="{{ $type }}" 
         value="{{ old($name, $value) }}"
-        placeholder="{{ $placeholder }}"/>
+        placeholder="{{ $placeholder }}"
+        @if($required) required @endif
+    />
     @error($name)
     <span class="text-destructive text-sm mt-1">
         {{ $message = $errors->first($name) }}

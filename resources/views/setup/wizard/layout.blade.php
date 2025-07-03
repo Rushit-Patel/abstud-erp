@@ -12,7 +12,12 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite([
+            'resources/css/team/vendors/apexcharts.css',
+            'resources/css/team/vendors/styles.bundle.css',
+            'resources/css/team/styles.css',
+            'resources/css/app.css',
+        ])
     </head>
     <body class="font-sans antialiased bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         <div class="min-h-screen">
@@ -75,6 +80,13 @@
             </footer>
         </div>
 
+        @vite([
+            'resources/js/team/core.bundle.js', 
+            'resources/js/team/vendors/abstud.min.js',
+            'resources/js/team/vendors/general.js',
+            'resources/js/team/vendors/demo.js',
+        ])
+        
         @stack('scripts')
     </body>
 </html>

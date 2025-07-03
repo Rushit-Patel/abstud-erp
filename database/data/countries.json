@@ -762,18 +762,6 @@
         "is_active": true
     },
     {
-        "id": 249,
-        "name": "Curaçao",
-        "phone_code": "599",
-        "currency": "ANG",
-        "currency_symbol": "ƒ",
-        "timezones": [
-            "America\/Curacao"
-        ],
-        "icon": "🇨🇼",
-        "is_active": true
-    },
-    {
         "id": 57,
         "name": "Cyprus",
         "phone_code": "357",
@@ -1510,18 +1498,6 @@
             "Asia\/Seoul"
         ],
         "icon": "🇰🇷",
-        "is_active": true
-    },
-    {
-        "id": 248,
-        "name": "Kosovo",
-        "phone_code": "383",
-        "currency": "EUR",
-        "currency_symbol": "€",
-        "timezones": [
-            "Europe\/Belgrade"
-        ],
-        "icon": "🇽🇰",
         "is_active": true
     },
     {
@@ -2555,18 +2531,6 @@
         "is_active": true
     },
     {
-        "id": 250,
-        "name": "Sint Maarten (Dutch part)",
-        "phone_code": "1721",
-        "currency": "ANG",
-        "currency_symbol": "ƒ",
-        "timezones": [
-            "America\/Anguilla"
-        ],
-        "icon": "🇸🇽",
-        "is_active": true
-    },
-    {
         "id": 200,
         "name": "Slovakia",
         "phone_code": "421",
@@ -3175,6 +3139,42 @@
             "Africa\/Harare"
         ],
         "icon": "🇿🇼",
+        "is_active": true
+    },
+    {
+        "id": 248,
+        "name": "Kosovo",
+        "phone_code": "383",
+        "currency": "EUR",
+        "currency_symbol": "€",
+        "timezones": [
+            "Europe\/Belgrade"
+        ],
+        "icon": "🇽🇰",
+        "is_active": true
+    },
+    {
+        "id": 249,
+        "name": "Curaçao",
+        "phone_code": "599",
+        "currency": "ANG",
+        "currency_symbol": "ƒ",
+        "timezones": [
+            "America\/Curacao"
+        ],
+        "icon": "🇨🇼",
+        "is_active": true
+    },
+    {
+        "id": 250,
+        "name": "Sint Maarten (Dutch part)",
+        "phone_code": "1721",
+        "currency": "ANG",
+        "currency_symbol": "ƒ",
+        "timezones": [
+            "America\/Anguilla"
+        ],
+        "icon": "🇸🇽",
         "is_active": true
     }
 ]

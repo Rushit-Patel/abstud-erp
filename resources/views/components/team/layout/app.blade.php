@@ -82,28 +82,6 @@
     
     @stack('scripts')
     
-    <!-- 
-    Global Toast Notification System
-    ===============================
-    
-    This global system handles Laravel session flash messages automatically:
-    - session('success') -> Green success toast
-    - session('error') -> Red error toast  
-    - session('warning') -> Yellow warning toast
-    - session('info') -> Blue info toast
-    - $errors->any() -> Individual validation error toasts
-    
-    Programmatic Usage:
-    - window.showToast.success('Message')
-    - window.showToast.error('Message')
-    - window.showToast.warning('Message')
-    - window.showToast.info('Message')
-    - window.showToast.loading('Message')
-    
-    Delete Confirmation:
-    - window.initDeleteConfirmation('custom-selector') // Optional custom selector
-    - Auto-initializes for forms with action containing "destroy"
-    -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Global Toast Handler for Laravel Session Messages

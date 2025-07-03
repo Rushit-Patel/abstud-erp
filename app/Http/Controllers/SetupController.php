@@ -38,10 +38,10 @@ class SetupController extends Controller
         }
 
         // Load location data
-        $countries = Country::all();
-        $states = State::all();
-        $cities = City::all();
-
+        $countries = Country::orderBy('name')->get();
+        $states = State::where('country_id', $company->country_id)->orderBy('name')->get();
+        $cities = City::where('state_id', $company->state_id)->orderBy('name')->get();
+        
         return view('setup.wizard.step2', compact('company', 'countries', 'states', 'cities'));
     }
 
@@ -84,9 +84,6 @@ class SetupController extends Controller
             $state = State::find($request->state_id);
             $city = City::find($request->city_id);
 
-            $data['country'] = $country->name;
-            $data['state'] = $state->name;
-            $data['city'] = $city->name;
             $data['country_id'] = $request->country_id;
             $data['state_id'] = $request->state_id;
             $data['city_id'] = $request->city_id;
@@ -238,9 +235,6 @@ class SetupController extends Controller
                 'branch_code' => strtoupper($request->branch_code),
                 'branch_name' => $request->branch_name,
                 'address' => $request->branch_address,
-                'city' => $city->name,
-                'state' => $state->name,
-                'country' => $country->name,
                 'city_id' => $request->branch_city_id,
                 'state_id' => $request->branch_state_id,
                 'country_id' => $request->branch_country_id,

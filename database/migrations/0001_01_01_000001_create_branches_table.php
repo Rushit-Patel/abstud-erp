@@ -16,14 +16,10 @@ return new class extends Migration
             $table->string('branch_code')->unique();
             $table->string('branch_name');
             $table->text('address');
-            $table->string('city');
-            $table->string('state');
-            $table->string('country');
             $table->string('postal_code')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('timezone')->nullable();
-            $table->string('manager_name')->nullable();
             $table->boolean('is_main_branch')->default(false);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
