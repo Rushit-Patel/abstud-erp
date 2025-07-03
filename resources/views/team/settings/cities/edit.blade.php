@@ -36,39 +36,40 @@ $breadcrumbs = [
                             <div class="grid gap-5">
                                 <!-- Country Selection -->
                                 <div class="flex flex-col gap-1">
-                                    <label class="kt-form-label font-normal text-mono required">Country</label>
-                                    <select name="country_id" id="country_id" class="kt-select" required>
-                                        <option value="">Select Country</option>
-                                        @foreach($countries as $country)
-                                            <option value="{{ $country->id }}" {{ old('country_id', $city?->state?->country_id) == $country->id ? 'selected' : '' }}>
-                                                {{ $country->icon }} {{ $country->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('country_id')
-                                        <div class="text-danger text-sm">{{ $message }}</div>
-                                    @enderror
+                                    <x-team.forms.select 
+                                        name="country_id" 
+                                        label="Country" 
+                                        id="country_id"
+                                        :options="$countries"
+                                        :selected="old('country_id' ,$city?->state?->country_id)"
+                                        placeholder="Select Country"
+                                        required="true"
+                                        searchable="true"
+                                    />
                                 </div>
 
-                                <!-- State Selection -->
                                 <div class="flex flex-col gap-1">
-                                    <label class="kt-form-label font-normal text-mono required">State/Province</label>
-                                    <select name="state_id" id="state_id" class="kt-select" required disabled>
-                                        <option value="">Select State First</option>
-                                    </select>
-                                    @error('state_id')
-                                        <div class="text-danger text-sm">{{ $message }}</div>
-                                    @enderror
+                                    <x-team.forms.select 
+                                        name="state_id" 
+                                        label="State/Province" 
+                                        :options="$states ?? []"
+                                        :selected="old('state_id' ,$city->state_id)"
+                                        placeholder="Select State"
+                                        required="true"
+                                        searchable="true"
+                                    />
                                 </div>
 
                                 <!-- City Name -->
+                                <div>                                
                                 <x-team.forms.input 
                                     name="name" 
                                     label="City Name" 
                                     type="text" 
                                     placeholder="Enter city name" 
-                                    :value="old('name')" 
+                                    :value="old('name',$city->name)" 
                                     required />
+                                </div>
                             </div>
                         </x-team.card>
                     </div>
@@ -83,7 +84,7 @@ $breadcrumbs = [
                                         name="is_active" 
                                         type="checkbox" 
                                         value="1" 
-                                        {{ old('is_active', true) ? 'checked' : '' }}
+                                        {{ old('is_active', $city?->is_active) ? 'checked' : '' }}
                                     />
                                     <span class="kt-checkbox-label">
                                         Active (Enable this city for selection)
@@ -101,107 +102,31 @@ $breadcrumbs = [
                     </a>
                     <button type="submit" class="kt-btn kt-btn-primary">
                         <i class="ki-filled ki-check"></i>
-                        Create City
+                        Update City
                     </button>
                 </div>
             </form>
         </div>
-
-        {{-- <script>
-            document.getElementById('country_id').addEventListener('change', function() {
-                const countryId = this.value;
-                const stateSelect = document.getElementById('state_id');
-                
-                // Reset state dropdown
-                stateSelect.innerHTML = '<option value="">Loading...</option>';
-                stateSelect.disabled = true;
-                
-                if (countryId) {
-                    // Fetch states for selected country
-                    fetch(`{{ route('team.settings.cities.states-by-country') }}?country_id=${countryId}`)
-                        .then(response => response.json())
-                        .then(states => {
-                            stateSelect.innerHTML = '<option value="">Select State</option>';
-                            
-                            states.forEach(state => {
-                                const option = document.createElement('option');
-                                option.value = state.id;
-                                option.textContent = state.name;
-                                if ({{ old('state_id', 0) }} == state.id) {
-                                    option.selected = true;
-                                }
-                                stateSelect.appendChild(option);
-                            });
-                            
-                            stateSelect.disabled = false;
-                        })
-                        .catch(error => {
-                            console.error('Error fetching states:', error);
-                            stateSelect.innerHTML = '<option value="">Error loading states</option>';
-                        });
-                } else {
-                    stateSelect.innerHTML = '<option value="">Select Country First</option>';
-                }
-            });
-
-            // Trigger change event if country is pre-selected (for validation errors)
-            @if(old('country_id'))
-                document.getElementById('country_id').dispatchEvent(new Event('change'));
-            @endif
-        </script> --}}
-     
-     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const countrySelect = document.getElementById('country_id');
-        const stateSelect = document.getElementById('state_id');
-        const stateUrl = "{{ route('team.settings.cities.states-by-country') }}";
-
-        function loadStates(countryId, preselectStateId = null) {
-            stateSelect.innerHTML = '<option value="">Loading...</option>';
-            stateSelect.disabled = true;
-
-            fetch(`${stateUrl}?country_id=${countryId}`)
-                .then(response => response.json())
-                .then(states => {
-                    stateSelect.innerHTML = '<option value="">Select State</option>';
-                    states.forEach(state => {
-                        const option = document.createElement('option');
-                        option.value = state.id;
-                        option.textContent = state.name;
-
-                        if (preselectStateId && parseInt(preselectStateId) === state.id) {
-                            option.selected = true;
-                        }
-
-                        stateSelect.appendChild(option);
-                    });
-
-                    stateSelect.disabled = false;
-                })
-                .catch(error => {
-                    console.error('Error fetching states:', error);
-                    stateSelect.innerHTML = '<option value="">Error loading states</option>';
-                });
-        }
-
-        // When country is changed
-        countrySelect.addEventListener('change', function () {
-            const countryId = this.value;
-            if (countryId) {
-                loadStates(countryId);
-            } else {
-                stateSelect.innerHTML = '<option value="">Select State</option>';
-                stateSelect.disabled = true;
-            }
-        });
-
-        // On page load, if editing
-        if (selectedCountryId) {
-            loadStates(selectedCountryId, selectedStateId);
-        }
-    });
-</script>
-
-
     </x-slot>
+
+     @push('scripts')
+    @vite(['resources/js/team/location-ajax.js'])
+
+    
+    <script>
+        $(document).ready(function() {
+            // If editing existing company with location data, set the values
+            @if($city && $city->state_id)
+                // Set initial values for edit mode
+                setTimeout(function() {
+                    LocationAjax.setSelectedValues({
+                        country_id: '{{ $city?->state?->country_id }}',
+                        state_id: '{{ $city->state->id }}',
+                        city_id: '{{ $city->id }}'
+                    });
+                }, 100);
+            @endif
+        });
+    </script>
+    @endpush
 </x-team.layout.app>

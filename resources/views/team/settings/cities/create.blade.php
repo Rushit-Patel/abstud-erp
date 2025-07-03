@@ -35,33 +35,33 @@ $breadcrumbs = [
                         <x-team.card title="Basic Information">
                             <div class="grid gap-5">
                                 <!-- Country Selection -->
-                                <div class="flex flex-col gap-1">
-                                    <label class="kt-form-label font-normal text-mono required">Country</label>
-                                    <select name="country_id" id="country_id" class="kt-select" required>
-                                        <option value="">Select Country</option>
-                                        @foreach($countries as $country)
-                                            <option value="{{ $country->id }}" {{ old('country_id') == $country->id ? 'selected' : '' }}>
-                                                {{ $country->icon }} {{ $country->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('country_id')
-                                        <div class="text-danger text-sm">{{ $message }}</div>
-                                    @enderror
+                                 <div class="flex flex-col gap-1">
+                                    <x-team.forms.select 
+                                        name="country_id" 
+                                        label="Country" 
+                                        id="country_id"
+                                        :options="$countries"
+                                        :selected="old('country_id')"
+                                        placeholder="Select Country"
+                                        required="true"
+                                        searchable="true"
+                                    />
                                 </div>
 
-                                <!-- State Selection -->
                                 <div class="flex flex-col gap-1">
-                                    <label class="kt-form-label font-normal text-mono required">State/Province</label>
-                                    <select name="state_id" id="state_id" class="kt-select" required disabled>
-                                        <option value="">Select State First</option>
-                                    </select>
-                                    @error('state_id')
-                                        <div class="text-danger text-sm">{{ $message }}</div>
-                                    @enderror
+                                    <x-team.forms.select 
+                                        name="state_id" 
+                                        label="State/Province" 
+                                        :options="$states ?? []"
+                                        :selected="old('state_id' )"
+                                        placeholder="Select State"
+                                        required="true"
+                                        searchable="true"
+                                    />
                                 </div>
 
                                 <!-- City Name -->
+                                <div>                                
                                 <x-team.forms.input 
                                     name="name" 
                                     label="City Name" 
@@ -69,6 +69,7 @@ $breadcrumbs = [
                                     placeholder="Enter city name" 
                                     :value="old('name')" 
                                     required />
+                                </div>
                             </div>
                         </x-team.card>
                     </div>
@@ -107,47 +108,21 @@ $breadcrumbs = [
             </form>
         </div>
 
-        <script>
-            document.getElementById('country_id').addEventListener('change', function() {
-                const countryId = this.value;
-                const stateSelect = document.getElementById('state_id');
-                
-                // Reset state dropdown
-                stateSelect.innerHTML = '<option value="">Loading...</option>';
-                stateSelect.disabled = true;
-                
-                if (countryId) {
-                    // Fetch states for selected country
-                    fetch(`{{ route('team.settings.cities.states-by-country') }}?country_id=${countryId}`)
-                        .then(response => response.json())
-                        .then(states => {
-                            stateSelect.innerHTML = '<option value="">Select State</option>';
-                            
-                            states.forEach(state => {
-                                const option = document.createElement('option');
-                                option.value = state.id;
-                                option.textContent = state.name;
-                                if ({{ old('state_id', 0) }} == state.id) {
-                                    option.selected = true;
-                                }
-                                stateSelect.appendChild(option);
-                            });
-                            
-                            stateSelect.disabled = false;
-                        })
-                        .catch(error => {
-                            console.error('Error fetching states:', error);
-                            stateSelect.innerHTML = '<option value="">Error loading states</option>';
-                        });
-                } else {
-                    stateSelect.innerHTML = '<option value="">Select Country First</option>';
-                }
-            });
-
-            // Trigger change event if country is pre-selected (for validation errors)
-            @if(old('country_id'))
-                document.getElementById('country_id').dispatchEvent(new Event('change'));
-            @endif
-        </script>
     </x-slot>
+
+    @push('scripts')
+    @vite(['resources/js/team/location-ajax.js'])
+    <script>
+        $(document).ready(function() {
+            // Initialize Location AJAX for country/state/city dropdowns
+            LocationAjax.init({
+                countrySelector: '#country_id',
+                stateSelector: '#state_id', 
+                citySelector: '#city_id',
+                statesRoute: '{{ route("team.settings.company.states", ":countryId") }}'.replace(':countryId', ''),
+                citiesRoute: '{{ route("team.settings.company.cities", ":stateId") }}'.replace(':stateId', '')
+            });
+        });
+    </script>
+    @endpush
 </x-team.layout.app>

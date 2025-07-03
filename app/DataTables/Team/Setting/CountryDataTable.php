@@ -16,8 +16,17 @@ class CountryDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', fn($row) => $this->renderAction($row))
             ->addColumn('country', fn($row) => $this->renderCountry($row))
+            ->filterColumn('country', function($query, $keyword) {
+                $query->where('name', 'like', "%{$keyword}%");
+            })
             ->addColumn('phone_code', fn($row) => $this->renderPhoneCode($row))
+            ->filterColumn('phone_code', function($query, $keyword) {
+                $query->where('phone_code', 'like', "%{$keyword}%");
+            })
             ->addColumn('currency', fn($row) => $this->renderCurrency($row))
+            ->filterColumn('currency', function($query, $keyword) {
+                $query->where('currency', 'like', "%{$keyword}%");
+            })
             ->addColumn('status', fn($row) => $this->renderStatus($row))
             ->rawColumns(['action', 'country', 'status'])
             ->setRowId('id');
@@ -44,9 +53,9 @@ class CountryDataTable extends DataTable
     {
         return [
             // Column::make('name')->title('Country Name')->width(180),
-            Column::computed('country')->title('Country')->exportable(false)->printable(true)->width(200)->addClass('text-start'),
-            Column::computed('phone_code')->title('Phone Code')->exportable(false)->printable(true)->width(200)->addClass('text-start'),
-            Column::computed('currency')->title('Currency')->exportable(false)->printable(true)->width(200)->addClass('text-start'),
+            Column::computed('country')->title('Country')->exportable(false)->printable(true)->width(200)->addClass('text-start')->searchable(true),
+            Column::computed('phone_code')->title('Phone Code')->exportable(false)->printable(true)->width(200)->addClass('text-start')->searchable(true),
+            Column::computed('currency')->title('Currency')->exportable(false)->printable(true)->width(200)->addClass('text-start')->searchable(true),
             Column::make('status')->width(130),
             Column::computed('action')
                 // ->title('Actions')
