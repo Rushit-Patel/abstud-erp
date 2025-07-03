@@ -94,8 +94,16 @@ class CountryDataTable extends DataTable
     // Dummy render methods for customization
     protected function renderAction($row): string
     {
-        $button = '<a href="'.route('team.settings.countries.edit', $row->id).'" class="btn btn-sm btn-primary"><i class="ki-filled ki-notepad-edit text-2xl me-2"></i></a>';
-        $deleteBtn = '<button type="button" onclick="openDeleteModal(' . $row->id . ')" ><i class="ki-filled ki-trash text-2xl"></i></button>';
+        $button = '
+            <a href="'.route('team.settings.countries.edit', $row->id).'" class="btn btn-sm btn-primary">
+                <i class="ki-filled ki-notepad-edit text-2xl me-2"></i>
+            </a>
+        ';
+        $deleteBtn = '
+            <button type="delete" data-kt-modal-toggle="#delete_modal" data-form_action="' . route('team.settings.countries.destroy', $row->id) . '">
+                <i class="ki-filled ki-trash text-2xl"></i>
+            </button>
+        ';
         return $button. ' ' .$deleteBtn;
     }
 

@@ -96,27 +96,6 @@
         "is_active": true
     },
     {
-        "id": 9,
-        "name": "Antarctica",
-        "phone_code": "",
-        "currency": "",
-        "currency_symbol": "$",
-        "timezones": [
-            "Antarctica\/Casey",
-            "Antarctica\/Davis",
-            "Antarctica\/DumontDUrville",
-            "Antarctica\/Mawson",
-            "Antarctica\/McMurdo",
-            "Antarctica\/Palmer",
-            "Antarctica\/Rothera",
-            "Antarctica\/Syowa",
-            "Antarctica\/Troll",
-            "Antarctica\/Vostok"
-        ],
-        "icon": "🇦🇶",
-        "is_active": true
-    },
-    {
         "id": 10,
         "name": "Antigua And Barbuda",
         "phone_code": "+1-268",
