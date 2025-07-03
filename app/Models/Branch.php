@@ -17,6 +17,9 @@ class Branch extends Model
         'city',
         'state',
         'country',
+        'country_id',
+        'state_id',
+        'city_id',
         'postal_code',
         'phone',
         'email',
@@ -63,5 +66,29 @@ class Branch extends Model
     public static function getMainBranch()
     {
         return self::where('is_main_branch', true)->first();
+    }
+
+    /**
+     * Get the associated country
+     */
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+    /**
+     * Get the associated state
+     */
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    /**
+     * Get the associated city
+     */
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 }

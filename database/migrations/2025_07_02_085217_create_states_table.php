@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('state_code', 10)->nullable(); // State abbreviation/code
             $table->boolean('is_active')->default(true);
             $table->timestamps();
-            
+            $table->softDeletes();
             // Unique constraint to prevent duplicate state names within the same country
             $table->unique(['country_id', 'name']);
         });

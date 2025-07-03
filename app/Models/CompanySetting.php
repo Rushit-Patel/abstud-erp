@@ -20,6 +20,9 @@ class CompanySetting extends Model
         'city',
         'state',
         'country',
+        'country_id',
+        'state_id',
+        'city_id',
         'postal_code',
         'is_setup_completed',
     ];

@@ -24,7 +24,12 @@ Route::prefix('settings')->name('settings.')->group(function () {
         Route::post('logo/upload', [CompanySettingsController::class, 'uploadLogo'])->name('logo.upload');
         Route::delete('logo/remove', [CompanySettingsController::class, 'removeLogo'])->name('logo.remove');
         Route::post('favicon/upload', [CompanySettingsController::class, 'uploadFavicon'])->name('favicon.upload');
-        Route::delete('favicon/remove', [CompanySettingsController::class, 'removeFavicon'])->name('favicon.remove');    });
+        Route::delete('favicon/remove', [CompanySettingsController::class, 'removeFavicon'])->name('favicon.remove');
+        
+        // AJAX routes for location dependencies
+        Route::get('states/{country}', [CompanySettingsController::class, 'getStatesByCountry'])->name('states');
+        Route::get('cities/{state}', [CompanySettingsController::class, 'getCitiesByState'])->name('cities');
+    });
     
     // Branch Management
     Route::resource('branches', BranchesController::class)

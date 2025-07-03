@@ -56,7 +56,6 @@ $breadcrumbs = [
             <form action="{{ route('team.settings.company.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                
                 <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 lg:gap-7.5">
                     <!-- Company Information -->
                     <div class="col-span-1">
@@ -98,24 +97,13 @@ $breadcrumbs = [
                                     placeholder="https://example.com"
                                     :value="$company->website_url ?? ''"
                                 />
-
-                                <!-- Company Address -->
-                                <div class="flex flex-col gap-1">
-                                    <label for="company_address" class="kt-form-label font-normal text-mono">
-                                        Company Address
-                                    </label>
-                                    <textarea 
-                                        class="kt-input min-h-24" 
-                                        id="company_address" 
-                                        name="company_address" 
-                                        placeholder="Enter complete company address"
-                                        rows="3">{{ old('company_address', $company->company_address ?? '') }}</textarea>
-                                    @error('company_address')
-                                    <span class="text-destructive text-sm mt-1">
-                                        {{ $errors->first('company_address') }}
-                                    </span>
-                                    @enderror
-                                </div>
+                                
+                                <x-team.forms.textarea
+                                    name="company_address"
+                                    label="Company Address"
+                                    placeholder="Enter complete company address"
+                                    :value="old('company_address', $company->company_address ?? '')"
+                                />
                             </div>
                         </x-team.card>
                     </div>
@@ -125,31 +113,37 @@ $breadcrumbs = [
                             <!-- Location Information -->
                             <x-team.card title="Location Details">
                                 <div class="grid gap-5">
-                                    <!-- City -->
-                                    <x-team.forms.input
-                                        name="city"
-                                        label="City"
-                                        type="text"
-                                        placeholder="Enter city"
-                                        :value="$company->city ?? ''"
+                                    <!-- Country -->
+                                    <x-team.forms.select 
+                                        name="country_id" 
+                                        label="Country" 
+                                        :options="$countries ?? []"
+                                        :selected="$company->country_id ?? old('country_id')"
+                                        placeholder="Select Country"
+                                        required="true"
+                                        searchable="true"
                                     />
 
                                     <!-- State -->
-                                    <x-team.forms.input
-                                        name="state"
-                                        label="State/Province"
-                                        type="text"
-                                        placeholder="Enter state or province"
-                                        :value="$company->state ?? ''"
+                                    <x-team.forms.select 
+                                        name="state_id" 
+                                        label="State/Province" 
+                                        :options="$states ?? []"
+                                        :selected="$company->state_id ?? old('state_id')"
+                                        placeholder="Select State"
+                                        required="true"
+                                        searchable="true"
                                     />
 
-                                    <!-- Country -->
-                                    <x-team.forms.input
-                                        name="country"
-                                        label="Country"
-                                        type="text"
-                                        placeholder="Enter country"
-                                        :value="$company->country ?? ''"
+                                    <!-- City -->
+                                    <x-team.forms.select 
+                                        name="city_id" 
+                                        label="City" 
+                                        :options="$cities ?? []"
+                                        :selected="$company->city_id ?? old('city_id')"
+                                        placeholder="Select City"
+                                        required="true"
+                                        searchable="true"
                                     />
 
                                     <!-- Postal Code -->
@@ -272,4 +266,32 @@ $breadcrumbs = [
             </form>
         </div>
     </x-slot>
+
+    @push('scripts')
+    @vite(['resources/js/team/location-ajax.js'])
+    <script>
+        $(document).ready(function() {
+            // Initialize Location AJAX for country/state/city dropdowns
+            LocationAjax.init({
+                countrySelector: '#country_id',
+                stateSelector: '#state_id', 
+                citySelector: '#city_id',
+                statesRoute: '{{ route("team.settings.company.states", ":countryId") }}'.replace(':countryId', ''),
+                citiesRoute: '{{ route("team.settings.company.cities", ":stateId") }}'.replace(':stateId', '')
+            });
+
+            // If editing existing company with location data, set the values
+            @if($company && $company->country_id)
+                // Set initial values for edit mode
+                setTimeout(function() {
+                    LocationAjax.setSelectedValues({
+                        country_id: '{{ $company->country_id }}',
+                        state_id: '{{ $company->state_id }}',
+                        city_id: '{{ $company->city_id }}'
+                    });
+                }, 100);
+            @endif
+        });
+    </script>
+    @endpush
 </x-team.layout.app>
