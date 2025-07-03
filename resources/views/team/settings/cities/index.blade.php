@@ -5,6 +5,11 @@ $breadcrumbs = [
     ['title' => 'City Management']
 ];
 @endphp
+@push('styles')
+    @vite([
+        'resources/css/team/vendors/dataTables.css',
+    ])
+@endpush
 
 <x-team.layout.app title="City Management" :breadcrumbs="$breadcrumbs">
     <x-slot name="content">
@@ -25,168 +30,68 @@ $breadcrumbs = [
                     </a>
                 </div>
             </div>
-
-            <div class="grid lg:grid-cols-4 gap-5 mb-7.5">
-                <div class="kt-card">
-                    <div class="kt-card-body p-5">
-                        <div class="flex items-center gap-2.5">
-                            <div class="kt-symbol kt-symbol-40px">
-                                <div class="kt-symbol-label kt-bg-primary kt-text-inverse">
-                                    <i class="ki-filled ki-map text-lg"></i>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-lg font-medium text-mono">{{ $cities->total() }}</span>
-                                <span class="text-sm text-secondary-foreground">Total Cities</span>
-                            </div>
-                        </div>
+            <x-team.card title="City List" headerClass="">
+                <div class="grid lg:grid-cols-1 gap-y-5 lg:gap-7.5 items-stretch  pb-5">
+                    <div class="lg:col-span-1">
+                        {{ $dataTable->table() }}
                     </div>
+
                 </div>
+            </x-team.card>
+        </div>
+
+        <div id="deleteModal" class="fixed inset-0 z-50 hidden flex items-center justify-center backdrop-blur-sm bg-opacity-50">
+            <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg border border-gray-300">
+                <h2 class="text-lg font-semibold mb-4">Delete City</h2>
+                <p class="mb-6">Are you sure you want to delete this city?</p>
                 
-                <div class="kt-card">
-                    <div class="kt-card-body p-5">
-                        <div class="flex items-center gap-2.5">
-                            <div class="kt-symbol kt-symbol-40px">
-                                <div class="kt-symbol-label kt-bg-success kt-text-inverse">
-                                    <i class="ki-filled ki-check-circle text-lg"></i>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-lg font-medium text-mono">{{ $cities->where('is_active', true)->count() }}</span>
-                                <span class="text-sm text-secondary-foreground">Active Cities</span>
-                            </div>
-                        </div>
+                <form id="deleteForm" action="{{ route('team.settings.cities.destroy', '__id__') }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="flex justify-end gap-2">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
                     </div>
-                </div>
-            </div>
-
-            <div class="kt-card">
-                <div class="kt-card-header">
-                    <h3 class="kt-card-title">Cities List</h3>
-                </div>
-                <div class="kt-card-body p-0">
-                    @if($cities->count() > 0)
-                        <div class="kt-table-container">
-                            <table class="kt-table kt-table-divider">
-                                <thead>
-                                    <tr>
-                                        <th class="min-w-[200px]">City</th>
-                                        <th class="min-w-[150px]">State</th>
-                                        <th class="min-w-[150px]">Country</th>
-                                        <th class="min-w-[100px]">Status</th>
-                                        <th class="text-center min-w-[100px]">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($cities as $city)
-                                        <tr>
-                                            <td>
-                                                <div class="flex flex-col">
-                                                    <a href="{{ route('team.settings.cities.show', $city) }}" 
-                                                       class="font-medium text-mono hover:text-primary">
-                                                        {{ $city->name }}
-                                                    </a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <span class="text-sm">{{ $city->state->name }}</span>
-                                            </td>
-                                            <td>
-                                                <div class="flex items-center gap-2">
-                                                    @if($city->state->country->icon)
-                                                        <span>{{ $city->state->country->icon }}</span>
-                                                    @endif
-                                                    <span class="text-sm">{{ $city->state->country->name }}</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                @if($city->is_active)
-                                                    <span class="kt-badge kt-badge-success kt-badge-sm">Active</span>
-                                                @else
-                                                    <span class="kt-badge kt-badge-secondary kt-badge-sm">Inactive</span>
-                                                @endif
-                                            </td>
-                                            <td class="text-center">
-                                                <div class="kt-dropdown" data-kt-dropdown="true" data-kt-dropdown-attach="parent" data-kt-dropdown-trigger="click">
-                                                    <button class="kt-btn kt-btn-icon kt-btn-sm kt-btn-ghost kt-btn-primary" data-kt-dropdown-toggle="dropdown">
-                                                        <i class="ki-filled ki-dots-vertical"></i>
-                                                    </button>
-                                                    <div class="kt-dropdown-content min-w-[175px]">
-                                                        <div class="kt-dropdown-item">
-                                                            <a href="{{ route('team.settings.cities.show', $city) }}" class="kt-dropdown-link">
-                                                                <i class="ki-filled ki-eye me-2"></i>
-                                                                View Details
-                                                            </a>
-                                                        </div>
-                                                        <div class="kt-dropdown-item">
-                                                            <a href="{{ route('team.settings.cities.edit', $city) }}" class="kt-dropdown-link">
-                                                                <i class="ki-filled ki-notepad-edit me-2"></i>
-                                                                Edit
-                                                            </a>
-                                                        </div>
-                                                        <div class="kt-dropdown-item">
-                                                            <form action="{{ route('team.settings.cities.toggle-status', $city) }}" method="POST" class="inline">
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <button type="submit" class="kt-dropdown-link w-full text-left">
-                                                                    @if($city->is_active)
-                                                                        <i class="ki-filled ki-minus-circle me-2"></i>
-                                                                        Deactivate
-                                                                    @else
-                                                                        <i class="ki-filled ki-check-circle me-2"></i>
-                                                                        Activate
-                                                                    @endif
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                        <div class="kt-dropdown-separator"></div>
-                                                        <div class="kt-dropdown-item">
-                                                            <form action="{{ route('team.settings.cities.destroy', $city) }}" method="POST" 
-                                                                  onsubmit="return confirm('Are you sure you want to delete this city?')" class="inline">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="kt-dropdown-link w-full text-left text-danger">
-                                                                    <i class="ki-filled ki-trash me-2"></i>
-                                                                    Delete
-                                                                </button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <!-- Pagination -->
-                        @if($cities->hasPages())
-                            <div class="kt-card-footer">
-                                {{ $cities->links() }}
-                            </div>
-                        @endif
-                    @else
-                        <div class="kt-empty-state">
-                            <div class="kt-empty-state-icon">
-                                <i class="ki-filled ki-map text-5xl text-muted"></i>
-                            </div>
-                            <div class="kt-empty-state-body">
-                                <h3 class="kt-empty-state-title">No Cities Found</h3>
-                                <div class="kt-empty-state-text">
-                                    Start by adding your first city.
-                                </div>
-                            </div>
-                            <div class="kt-empty-state-actions">
-                                <a href="{{ route('team.settings.cities.create') }}" class="kt-btn kt-btn-primary">
-                                    <i class="ki-filled ki-plus"></i>
-                                    Add City
-                                </a>
-                            </div>
-                        </div>
-                    @endif
-                </div>
+                </form>
             </div>
         </div>
+
+        </div>
     </x-slot>
+
+    @push('scripts')
+        @vite([
+            'resources/js/team/vendors/dataTables.min.js',
+            'resources/js/team/vendors/buttons.dataTables.js',
+            'resources/js/team/vendors/dataTables.buttons.js'
+        ])
+        {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+
+        <script>
+            function openDeleteModal(id) {
+                const modal = document.getElementById('deleteModal');
+                const form = document.getElementById('deleteForm');
+
+                if (!form.dataset.baseAction) {
+                    form.dataset.baseAction = form.getAttribute('action');
+                }
+
+                const newAction = form.dataset.baseAction.replace('__id__', id);
+                form.setAttribute('action', newAction);
+
+                modal.classList.remove('hidden');
+            }
+
+            function closeModal() {
+                const modal = document.getElementById('deleteModal');
+                const form = document.getElementById('deleteForm');
+
+                if (form.dataset.baseAction) {
+                    form.setAttribute('action', form.dataset.baseAction);
+                }
+
+                modal.classList.add('hidden');
+            }
+        </script>
+    @endpush
 </x-team.layout.app>

@@ -30,40 +30,6 @@ $breadcrumbs = [
                 </div>
             </div>
 
-            {{-- <div class="grid lg:grid-cols-4 gap-5 mb-7.5">
-                <div class="kt-card">
-                    <div class="kt-card-body p-5">
-                        <div class="flex items-center gap-2.5">
-                            <div class="kt-symbol kt-symbol-40px">
-                                <div class="kt-symbol-label kt-bg-primary kt-text-inverse">
-                                    <i class="ki-filled ki-geolocation text-lg"></i>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-lg font-medium text-mono">{{ $countries->total() }}</span>
-                                <span class="text-sm text-secondary-foreground">Total Countries</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="kt-card">
-                    <div class="kt-card-body p-5">
-                        <div class="flex items-center gap-2.5">
-                            <div class="kt-symbol kt-symbol-40px">
-                                <div class="kt-symbol-label kt-bg-success kt-text-inverse">
-                                    <i class="ki-filled ki-check-circle text-lg"></i>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-1">
-                                <span class="text-lg font-medium text-mono">{{ $countries->where('is_active', true)->count() }}</span>
-                                <span class="text-sm text-secondary-foreground">Active Countries</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-
             <x-team.card title="Countries List" headerClass="">
                 <div class="grid lg:grid-cols-1 gap-y-5 lg:gap-7.5 items-stretch  pb-5">
                     <div class="lg:col-span-1">
