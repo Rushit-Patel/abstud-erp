@@ -7,16 +7,16 @@ use App\Models\City;
 use App\Models\State;
 use App\Models\Country;
 use Illuminate\Http\Request;
+use App\DataTables\Team\Setting\CitiesDataTable;
 
 class CitiesController extends Controller
 {
     /**
      * Display a listing of cities
      */
-    public function index()
+    public function index(CitiesDataTable $CitiesDataTable)
     {
-        $cities = City::with(['state', 'state.country'])->orderBy('name')->paginate(20);
-        return view('team.settings.cities.index', compact('cities'));
+        return $CitiesDataTable->render('team.settings.cities.index');
     }
 
     /**
@@ -168,6 +168,7 @@ class CitiesController extends Controller
      */
     public function getStatesByCountry(Request $request)
     {
+        dd($request->all());
         $countryId = $request->get('country_id');
         $states = State::where('country_id', $countryId)->active()->orderBy('name')->get();
         

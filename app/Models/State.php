@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class State extends Model
 {
-    use HasFactory;
+    use HasFactory ,SoftDeletes;
 
     protected $fillable = [
         'id',
@@ -21,6 +22,7 @@ class State extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'deleted_at' => 'datetime',
     ];
 
     /**

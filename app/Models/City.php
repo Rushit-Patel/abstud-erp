@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class City extends Model
 {
-    use HasFactory;
+    use HasFactory ,SoftDeletes;
 
     protected $fillable = [
         'id',
@@ -20,6 +21,7 @@ class City extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'deleted_at' => 'datetime',
     ];
 
     /**

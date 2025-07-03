@@ -73,7 +73,10 @@ Route::prefix('settings')->name('settings.')->group(function () {
         ->names('cities');
     Route::patch('cities/{city}/toggle-status', [CitiesController::class, 'toggleStatus'])
         ->name('cities.toggle-status');
+    // Route::get('cities/states-by-country', [CitiesController::class, 'getStatesByCountry'])
+    //     ->name('cities.states-by-country');
     Route::get('cities/states-by-country', [CitiesController::class, 'getStatesByCountry'])
-        ->name('cities.states-by-country');
+            ->name('cities.states-by-country');
+
         
 });

@@ -6,16 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\State;
 use App\Models\Country;
 use Illuminate\Http\Request;
+use App\DataTables\Team\Setting\StateDataTable;
 
 class StatesController extends Controller
 {
     /**
      * Display a listing of states
      */
-    public function index()
+    public function index(StateDataTable $StateDataTable)
     {
-        $states = State::with('country')->orderBy('name')->paginate(20);
-        return view('team.settings.states.index', compact('states'));
+          return $StateDataTable->render('team.settings.states.index');
     }
 
     /**
