@@ -16,7 +16,15 @@ class StateDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', fn($row) => $this->renderAction($row))
             ->addColumn('state', fn($row) => $this->renderState($row))
+            ->filterColumn('state', function($query, $keyword) {
+                $query->where('name', 'like', "%{$keyword}%");
+            })
             ->addColumn('country', fn($row) => $this->renderCountry($row))
+            ->filterColumn('country', function($query, $keyword) {
+                $query->whereHas('country', function ($q) use ($keyword) {
+                    $q->where('name', 'like', "%{$keyword}%");
+                });
+            })
             ->addColumn('status', fn($row) => $this->renderStatus($row))
             ->rawColumns(['action', 'country', 'status'])
             ->setRowId('id');
@@ -43,8 +51,8 @@ class StateDataTable extends DataTable
     {
         return [
             // Column::make('name')->title('Country Name')->width(180),
-            Column::computed('state')->title('State')->exportable(false)->printable(true)->width(200)->addClass('text-start'),
-            Column::computed('country')->title('Country')->exportable(false)->printable(true)->width(200)->addClass('text-start'),
+            Column::computed('state')->title('State')->exportable(false)->printable(true)->width(200)->addClass('text-start')->searchable(true),
+            Column::computed('country')->title('Country')->exportable(false)->printable(true)->width(200)->addClass('text-start')->searchable(true),
             Column::make('status')->width(130),
             Column::computed('action')
                 // ->title('Actions')

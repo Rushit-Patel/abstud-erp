@@ -166,12 +166,4 @@ class CitiesController extends Controller
     /**
      * Get states by country (AJAX endpoint)
      */
-    public function getStatesByCountry(Request $request)
-    {
-        dd($request->all());
-        $countryId = $request->get('country_id');
-        $states = State::where('country_id', $countryId)->active()->orderBy('name')->get();
-        
-        return response()->json($states);
-    }
 }
