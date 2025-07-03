@@ -98,44 +98,24 @@
                     @csrf
 
                     <!-- Branch Name -->
-                    <div>
-                        <label for="branch_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Branch Name <span class="text-red-500">*</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            name="branch_name" 
-                            id="branch_name" 
-                            value="{{ old('branch_name', $company->company_name . ' - Main Branch') }}" 
-                            required
-                            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors"
-                            placeholder="Main Branch"
-                        >
-                        @error('branch_name')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-team.forms.input 
+                        name="branch_name" 
+                        label="Branch Name" 
+                        type="text"
+                        :value="old('branch_name', $company->company_name . ' - Main Branch')"
+                        placeholder="Main Branch"
+                        required="true"
+                    />
 
                     <!-- Branch Code -->
-                    <div>
-                        <label for="branch_code" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Branch Code <span class="text-red-500">*</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            name="branch_code" 
-                            id="branch_code" 
-                            value="{{ old('branch_code', 'MAIN') }}" 
-                            required
-                            maxlength="10"
-                            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors uppercase"
-                            placeholder="MAIN"
-                        >
-                        <p class="mt-1 text-xs text-gray-500">3-10 characters, letters and numbers only</p>
-                        @error('branch_code')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-team.forms.input 
+                        name="branch_code" 
+                        label="Branch Code" 
+                        type="text"
+                        :value="old('branch_code', 'MAIN')"
+                        placeholder="MAIN"
+                        required="true"
+                    />
 
                     <!-- Branch Address -->
                     <div>
@@ -157,96 +137,54 @@
 
                     <!-- Contact Information -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="branch_phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Phone Number
-                            </label>
-                            <input 
-                                type="tel" 
-                                name="branch_phone" 
-                                id="branch_phone" 
-                                value="{{ old('branch_phone', $company->phone) }}"
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors"
-                                placeholder="+1 (555) 123-4567"
-                            >
-                            @error('branch_phone')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        <x-team.forms.input 
+                            name="branch_phone" 
+                            label="Phone Number" 
+                            type="tel"
+                            :value="old('branch_phone', $company->phone ?? '')"
+                            placeholder="+1 (555) 123-4567"
+                        />
 
-                        <div>
-                            <label for="branch_email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Email Address
-                            </label>
-                            <input 
-                                type="email" 
-                                name="branch_email" 
-                                id="branch_email" 
-                                value="{{ old('branch_email', $company->email) }}"
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors"
-                                placeholder="branch@yourcompany.com"
-                            >
-                            @error('branch_email')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        <x-team.forms.input 
+                            name="branch_email" 
+                            label="Email Address" 
+                            type="email"
+                            :value="old('branch_email', $company->email ?? '')"
+                            placeholder="branch@yourcompany.com"
+                        />
                     </div>
 
                     <!-- Location -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
-                            <label for="branch_city" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                City <span class="text-red-500">*</span>
-                            </label>
-                            <input 
-                                type="text" 
-                                name="branch_city" 
-                                id="branch_city" 
-                                value="{{ old('branch_city', $company->city) }}" 
-                                required
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors"
-                                placeholder="City"
-                            >
-                            @error('branch_city')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        <x-team.forms.select 
+                            name="branch_country_id" 
+                            label="Country" 
+                            :options="$countries"
+                            :selected="old('branch_country_id')"
+                            placeholder="Select Country"
+                            required="true"
+                            searchable="true"
+                        />
 
-                        <div>
-                            <label for="branch_state" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                State/Province <span class="text-red-500">*</span>
-                            </label>
-                            <input 
-                                type="text" 
-                                name="branch_state" 
-                                id="branch_state" 
-                                value="{{ old('branch_state', $company->state) }}" 
-                                required
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors"
-                                placeholder="State/Province"
-                            >
-                            @error('branch_state')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        <x-team.forms.select 
+                            name="branch_state_id" 
+                            label="State/Province" 
+                            :options="[]"
+                            :selected="old('branch_state_id')"
+                            placeholder="Select State"
+                            required="true"
+                            searchable="true"
+                        />
 
-                        <div>
-                            <label for="branch_country" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Country <span class="text-red-500">*</span>
-                            </label>
-                            <input 
-                                type="text" 
-                                name="branch_country" 
-                                id="branch_country" 
-                                value="{{ old('branch_country', $company->country) }}" 
-                                required
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors"
-                                placeholder="Country"
-                            >
-                            @error('branch_country')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        <x-team.forms.select 
+                            name="branch_city_id" 
+                            label="City" 
+                            :options="[]"
+                            :selected="old('branch_city_id')"
+                            placeholder="Select City"
+                            required="true"
+                            searchable="true"
+                        />
                     </div>
                     <!-- Navigation Buttons -->
                     <div class="flex justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
@@ -281,6 +219,58 @@
     // Auto-uppercase branch code
     document.getElementById('branch_code').addEventListener('input', function(e) {
         e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    });
+
+    // Location dependency handling
+    document.addEventListener('DOMContentLoaded', function() {
+        const countrySelect = document.getElementById('branch_country_id');
+        const stateSelect = document.getElementById('branch_state_id');
+        const citySelect = document.getElementById('branch_city_id');
+
+        // Country change handler
+        countrySelect.addEventListener('change', function() {
+            const countryId = this.value;
+            
+            // Reset state and city
+            stateSelect.innerHTML = '<option value="">Select State</option>';
+            citySelect.innerHTML = '<option value="">Select City</option>';
+            
+            if (countryId) {
+                fetch(`{{ route('setup.states', ['country' => ':countryId']) }}`.replace(':countryId', countryId))
+                    .then(response => response.json())
+                    .then(states => {
+                        states.forEach(state => {
+                            const option = document.createElement('option');
+                            option.value = state.id;
+                            option.textContent = state.name;
+                            stateSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error loading states:', error));
+            }
+        });
+
+        // State change handler
+        stateSelect.addEventListener('change', function() {
+            const stateId = this.value;
+            
+            // Reset city
+            citySelect.innerHTML = '<option value="">Select City</option>';
+            
+            if (stateId) {
+                fetch(`{{ route('setup.cities', ['state' => ':stateId']) }}`.replace(':stateId', stateId))
+                    .then(response => response.json())
+                    .then(cities => {
+                        cities.forEach(city => {
+                            const option = document.createElement('option');
+                            option.value = city.id;
+                            option.textContent = city.name;
+                            citySelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error loading cities:', error));
+            }
+        });
     });
 </script>
 @endpush

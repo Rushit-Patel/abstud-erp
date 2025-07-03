@@ -70,41 +70,23 @@
                     @csrf
 
                     <!-- Company Name -->
-                    <div>
-                        <label for="company_name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Company Name <span class="text-red-500">*</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            name="company_name" 
-                            id="company_name" 
-                            value="{{ old('company_name') }}" 
-                            required
-                            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors"
-                            placeholder="Enter your company name"
-                        >
-                        @error('company_name')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-team.forms.input 
+                        name="company_name" 
+                        label="Company Name" 
+                        type="text"
+                        :value="old('company_name')"
+                        placeholder="Enter your company name"
+                        required="true"
+                    />
 
                     <!-- Website URL -->
-                    <div>
-                        <label for="website_url" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Website URL
-                        </label>
-                        <input 
-                            type="url" 
-                            name="website_url" 
-                            id="website_url" 
-                            value="{{ old('website_url') }}"
-                            class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors"
-                            placeholder="https://www.yourcompany.com"
-                        >
-                        @error('website_url')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
+                    <x-team.forms.input 
+                        name="website_url" 
+                        label="Website URL" 
+                        type="url"
+                        :value="old('website_url')"
+                        placeholder="https://www.yourcompany.com"
+                    />
 
                     <!-- Logo Upload -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -164,6 +146,45 @@
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
+
+                    <!-- Location -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <x-team.forms.select 
+                                name="country_id" 
+                                label="Country" 
+                                :options="$countries"
+                                :selected="old('country_id')"
+                                placeholder="Select Country"
+                                required="true"
+                                searchable="true"
+                            />
+                        </div>
+
+                        <div>
+                            <x-team.forms.select 
+                                name="state_id" 
+                                label="State/Province" 
+                                :options="[]"
+                                :selected="old('state_id')"
+                                placeholder="Select State"
+                                required="true"
+                                searchable="true"
+                            />
+                        </div>
+
+                        <div>
+                            <x-team.forms.select 
+                                name="city_id" 
+                                label="City" 
+                                :options="[]"
+                                :selected="old('city_id')"
+                                placeholder="Select City"
+                                required="true"
+                                searchable="true"
+                            />
+                        </div>
+                    </div>
                     <!-- Navigation Buttons -->
                     <div class="flex justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
                         <button 
@@ -199,6 +220,58 @@
             const label = e.target.closest('div').querySelector('label span:first-child');
             label.textContent = file.name;
         }
+    });
+
+    // Location dependency handling
+    document.addEventListener('DOMContentLoaded', function() {
+        const countrySelect = document.getElementById('country_id');
+        const stateSelect = document.getElementById('state_id');
+        const citySelect = document.getElementById('city_id');
+
+        // Country change handler
+        countrySelect.addEventListener('change', function() {
+            const countryId = this.value;
+            
+            // Reset state and city
+            stateSelect.innerHTML = '<option value="">Select State</option>';
+            citySelect.innerHTML = '<option value="">Select City</option>';
+            
+            if (countryId) {
+                fetch(`{{ route('setup.states', ['country' => ':countryId']) }}`.replace(':countryId', countryId))
+                    .then(response => response.json())
+                    .then(states => {
+                        states.forEach(state => {
+                            const option = document.createElement('option');
+                            option.value = state.id;
+                            option.textContent = state.name;
+                            stateSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error loading states:', error));
+            }
+        });
+
+        // State change handler
+        stateSelect.addEventListener('change', function() {
+            const stateId = this.value;
+            
+            // Reset city
+            citySelect.innerHTML = '<option value="">Select City</option>';
+            
+            if (stateId) {
+                fetch(`{{ route('setup.cities', ['state' => ':stateId']) }}`.replace(':stateId', stateId))
+                    .then(response => response.json())
+                    .then(cities => {
+                        cities.forEach(city => {
+                            const option = document.createElement('option');
+                            option.value = city.id;
+                            option.textContent = city.name;
+                            citySelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error loading cities:', error));
+            }
+        });
     });
 </script>
 @endpush

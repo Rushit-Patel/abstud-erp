@@ -100,58 +100,35 @@
                 <form action="{{ route('setup.admin.store') }}" method="POST">
                     @csrf
 
-                    <div class="space-y-6">                        <!-- Full Name -->
-                        <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Full Name <span class="text-red-500">*</span>
-                            </label>
-                            <input 
-                                id="name" 
-                                name="name" 
-                                type="text" 
-                                required 
-                                value="{{ old('name') }}"
-                                placeholder="Enter your full name"
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors">
-                            @error('name')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
+                    <div class="space-y-6">
+                        <!-- Full Name -->
+                        <x-team.forms.input 
+                            name="name" 
+                            label="Full Name" 
+                            type="text"
+                            :value="old('name')"
+                            placeholder="Enter your full name"
+                            required="true"
+                        />
 
                         <!-- Email Address -->
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Email Address <span class="text-red-500">*</span>
-                            </label>
-                            <input 
-                                id="email" 
-                                name="email" 
-                                type="email" 
-                                required 
-                                value="{{ old('email') }}"
-                                placeholder="admin@company.com"
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors">
-                            @error('email')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        <x-team.forms.input 
+                            name="email" 
+                            label="Email Address" 
+                            type="email"
+                            :value="old('email')"
+                            placeholder="admin@company.com"
+                            required="true"
+                        />
 
                         <!-- Phone Number -->
-                        <div>
-                            <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Phone Number
-                            </label>
-                            <input 
-                                id="phone" 
-                                name="phone" 
-                                type="tel" 
-                                value="{{ old('phone') }}"
-                                placeholder="+1 (555) 123-4567"
-                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors">
-                            @error('phone')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        <x-team.forms.input 
+                            name="phone" 
+                            label="Phone Number" 
+                            type="tel"
+                            :value="old('phone')"
+                            placeholder="+1 (555) 123-4567"
+                        />
 
                         <!-- Password Section -->
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
@@ -159,41 +136,25 @@
                             
                             <div class="space-y-4">
                                 <!-- Password -->
-                                <div>
-                                    <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                        Password <span class="text-red-500">*</span>
-                                    </label>
-                                    <input 
-                                        id="password" 
-                                        name="password" 
-                                        type="password" 
-                                        required
-                                        placeholder="Enter a strong password"
-                                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors">
-                                    @error('password')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                    <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                        Must contain at least 8 characters with uppercase, lowercase, numbers, and symbols
-                                    </div>
+                                <x-team.forms.input 
+                                    name="password" 
+                                    label="Password" 
+                                    type="password"
+                                    placeholder="Enter a strong password"
+                                    required="true"
+                                />
+                                <div class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                    Must contain at least 8 characters with uppercase, lowercase, numbers, and symbols
                                 </div>
 
                                 <!-- Confirm Password -->
-                                <div>
-                                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                        Confirm Password <span class="text-red-500">*</span>
-                                    </label>
-                                    <input 
-                                        id="password_confirmation" 
-                                        name="password_confirmation" 
-                                        type="password" 
-                                        required
-                                        placeholder="Confirm your password"
-                                        class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors">
-                                    @error('password_confirmation')
-                                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
+                                <x-team.forms.input 
+                                    name="password_confirmation" 
+                                    label="Confirm Password" 
+                                    type="password"
+                                    placeholder="Confirm your password"
+                                    required="true"
+                                />
                             </div>
                         </div>
 

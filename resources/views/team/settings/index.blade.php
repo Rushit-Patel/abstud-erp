@@ -65,6 +65,41 @@ $breadcrumbs = [
                     icon="map"
                     link="{{ route('team.settings.cities.index') ?? '#' }}"
                 />
+                <x-team.cards.setting-sm-card 
+                    title="Lead Type" 
+                    icon="map"
+                    link="{{ route('team.settings.cities.index') ?? '#' }}"
+                />
+                <x-team.cards.setting-sm-card 
+                    title="Purpose" 
+                    icon="map"
+                    link="{{ route('team.settings.cities.index') ?? '#' }}"
+                />
+                <x-team.cards.setting-sm-card 
+                    title="Source" 
+                    icon="map"
+                    link="{{ route('team.settings.cities.index') ?? '#' }}"
+                />
+                <x-team.cards.setting-sm-card 
+                    title="Lead Status" 
+                    icon="map"
+                    link="{{ route('team.settings.cities.index') ?? '#' }}"
+                />
+                <x-team.cards.setting-sm-card 
+                    title="Lead Sub Status" 
+                    icon="map"
+                    link="{{ route('team.settings.cities.index') ?? '#' }}"
+                />
+                <x-team.cards.setting-sm-card 
+                    title="Destination Country" 
+                    icon="map"
+                    link="{{ route('team.settings.cities.index') ?? '#' }}"
+                />
+                <x-team.cards.setting-sm-card 
+                    title="Coaching" 
+                    icon="map"
+                    link="{{ route('team.settings.cities.index') ?? '#' }}"
+                />
             </div>
         </div>
     </x-slot>

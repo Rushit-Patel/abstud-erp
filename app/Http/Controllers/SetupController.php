@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use App\Models\City;
 use App\Models\CompanySetting;
+use App\Models\Country;
+use App\Models\State;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +25,8 @@ class SetupController extends Controller
             return redirect()->route('team.dashboard');
         }
 
-        return view('setup.wizard.step1');
+        $countries = Country::orderBy('name')->get();
+        return view('setup.wizard.step1', compact('countries'));
     }
 
     public function showBranchSetup()
@@ -33,7 +37,12 @@ class SetupController extends Controller
             return redirect()->route('setup.company');
         }
 
-        return view('setup.wizard.step2', compact('company'));
+        // Load location data
+        $countries = Country::all();
+        $states = State::all();
+        $cities = City::all();
+
+        return view('setup.wizard.step2', compact('company', 'countries', 'states', 'cities'));
     }
 
     public function storeCompanySetup(Request $request)
@@ -43,7 +52,10 @@ class SetupController extends Controller
             'website_url' => 'nullable|url',
             'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'company_favicon' => 'nullable|image|mimes:jpeg,png,jpg,gif,ico,svg|max:1024',
-            'company_address' => 'required|string'
+            'company_address' => 'required|string',
+            'country_id' => 'required|exists:countries,id',
+            'state_id' => 'required|exists:states,id',
+            'city_id' => 'required|exists:cities,id',
         ], [
             'company_name.required' => 'Company name is required.',
             'company_address.required' => 'Company address is required.',
@@ -54,12 +66,30 @@ class SetupController extends Controller
             'company_favicon.image' => 'Company favicon must be an image.',
             'company_favicon.mimes' => 'Company favicon must be a file of type: jpeg, png, jpg, gif, ico, svg.',
             'company_favicon.max' => 'Company favicon may not be greater than 1MB.',
+            'country_id.required' => 'Country is required.',
+            'country_id.exists' => 'Selected country is invalid.',
+            'state_id.required' => 'State is required.',
+            'state_id.exists' => 'Selected state is invalid.',
+            'city_id.required' => 'City is required.',
+            'city_id.exists' => 'Selected city is invalid.',
         ]);
 
         DB::transaction(function () use ($request) {
             $data = $request->only([
                 'company_name', 'website_url', 'company_address'
             ]);
+
+            // Get location names from IDs
+            $country = Country::find($request->country_id);
+            $state = State::find($request->state_id);
+            $city = City::find($request->city_id);
+
+            $data['country'] = $country->name;
+            $data['state'] = $state->name;
+            $data['city'] = $city->name;
+            $data['country_id'] = $request->country_id;
+            $data['state_id'] = $request->state_id;
+            $data['city_id'] = $request->city_id;
 
             // Handle file uploads
             if ($request->hasFile('company_logo')) {
@@ -177,9 +207,9 @@ class SetupController extends Controller
             'branch_name' => 'required|string|max:255',
             'branch_code' => 'required|string|max:10|unique:branches,branch_code',
             'branch_address' => 'required|string',
-            'branch_city' => 'required|string|max:100',
-            'branch_state' => 'required|string|max:100',
-            'branch_country' => 'required|string|max:100',
+            'branch_country_id' => 'required|exists:countries,id',
+            'branch_state_id' => 'required|exists:states,id',
+            'branch_city_id' => 'required|exists:cities,id',
             'branch_phone' => 'nullable|string|regex:/^[\+]?[0-9\(\)\-\s]+$/',
             'branch_email' => 'nullable|email',
         ], [
@@ -187,22 +217,33 @@ class SetupController extends Controller
             'branch_code.required' => 'Branch code is required.',
             'branch_code.unique' => 'This branch code is already taken.',
             'branch_address.required' => 'Branch address is required.',
-            'branch_city.required' => 'City is required.',
-            'branch_state.required' => 'State is required.',
-            'branch_country.required' => 'Country is required.',
+            'branch_country_id.required' => 'Country is required.',
+            'branch_country_id.exists' => 'Selected country is invalid.',
+            'branch_state_id.required' => 'State is required.',
+            'branch_state_id.exists' => 'Selected state is invalid.',
+            'branch_city_id.required' => 'City is required.',
+            'branch_city_id.exists' => 'Selected city is invalid.',
             'branch_phone.regex' => 'Please enter a valid phone number.',
             'branch_email.email' => 'Please enter a valid email address.',
         ]);
 
         DB::transaction(function () use ($request) {
+            // Get location names from IDs
+            $country = Country::find($request->branch_country_id);
+            $state = State::find($request->branch_state_id);
+            $city = City::find($request->branch_city_id);
+
             // Create main branch
             $branch = Branch::create([
                 'branch_code' => strtoupper($request->branch_code),
                 'branch_name' => $request->branch_name,
                 'address' => $request->branch_address,
-                'city' => $request->branch_city,
-                'state' => $request->branch_state,
-                'country' => $request->branch_country,
+                'city' => $city->name,
+                'state' => $state->name,
+                'country' => $country->name,
+                'city_id' => $request->branch_city_id,
+                'state_id' => $request->branch_state_id,
+                'country_id' => $request->branch_country_id,
                 'phone' => $request->branch_phone,
                 'email' => $request->branch_email,
                 'is_main_branch' => true,
@@ -237,11 +278,31 @@ class SetupController extends Controller
         // Assign all permissions to Super Admin
         $superAdmin->syncPermissions(Permission::all());
 
-        // Assign limited permissions to Admin
-        $admin->syncPermissions([
-            'view dashboard',
-            'manage students',
-            'manage partners',
-        ]);
+        // Assign default admin role if it doesn't exist
+        $admin->syncPermissions(['view dashboard', 'manage students', 'manage partners']);
+    }
+
+    /**
+     * Get states by country ID for AJAX calls
+     */
+    public function getStatesByCountry($countryId)
+    {
+        $states = State::where('country_id', $countryId)
+                      ->orderBy('name')
+                      ->get(['id', 'name']);
+        
+        return response()->json($states);
+    }
+
+    /**
+     * Get cities by state ID for AJAX calls
+     */
+    public function getCitiesByState($stateId)
+    {
+        $cities = City::where('state_id', $stateId)
+                     ->orderBy('name')
+                     ->get(['id', 'name']);
+        
+        return response()->json($cities);
     }
 }

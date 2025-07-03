@@ -24,6 +24,10 @@ Route::prefix('setup')->name('setup.')->group(function () {
     // Step 3: Admin User Setup (Final Step)
     Route::get('admin', [SetupController::class, 'showAdminSetup'])->name('admin');
     Route::post('admin', [SetupController::class, 'storeAdminSetup'])->name('admin.store');
+    
+    // AJAX routes for location dependencies
+    Route::get('states/{country}', [SetupController::class, 'getStatesByCountry'])->name('states');
+    Route::get('cities/{state}', [SetupController::class, 'getCitiesByState'])->name('cities');
 });
 
 // Admin Routes

@@ -89,14 +89,14 @@ $breadcrumbs = [
                                                 </div>
                                             </td>
                                             <td>
-                                                <span class="text-sm">{{ $city->state->name }}</span>
+                                                <span class="text-sm">{{ $city?->state?->name }}</span>
                                             </td>
                                             <td>
                                                 <div class="flex items-center gap-2">
-                                                    @if($city->state->country->icon)
-                                                        <span>{{ $city->state->country->icon }}</span>
+                                                    @if($city->state?->country?->icon)
+                                                        <span>{{ $city->state?->country?->icon }}</span>
                                                     @endif
-                                                    <span class="text-sm">{{ $city->state->country->name }}</span>
+                                                    <span class="text-sm">{{ $city->state?->country?->name }}</span>
                                                 </div>
                                             </td>
                                             <td>
