@@ -10,6 +10,11 @@ use App\Http\Controllers\Team\SystemSettings\CountriesController;
 use App\Http\Controllers\Team\SystemSettings\StatesController;
 use App\Http\Controllers\Team\SystemSettings\CitiesController;
 use App\Http\Controllers\Team\SystemSettings\LeadTypesController;
+use App\Http\Controllers\Team\SystemSettings\PurposeController;
+use App\Http\Controllers\Team\SystemSettings\SourceController;
+use App\Http\Controllers\Team\SystemSettings\LeasStatusController;
+use App\Http\Controllers\Team\SystemSettings\CoachingController;
+use App\Http\Controllers\Team\SystemSettings\ForeignCountryController;
 use Illuminate\Support\Facades\Route;
 
 // System Settings Routes - Master Administration Panel
@@ -81,5 +86,30 @@ Route::prefix('settings')->name('settings.')->group(function () {
         ->names('lead-types');
     Route::patch('lead-types/{leadType}/toggle-status', [LeadTypesController::class, 'toggleStatus'])
         ->name('lead-types.toggle-status');
+   
+        // Purpose Management
+    Route::resource('purpose', PurposeController::class)
+        ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'])
+        ->names('purpose');
+        
+        // Source Management
+    Route::resource('source', SourceController::class)
+        ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'])
+        ->names('source');
+
+        // Lead Status Management
+    Route::resource('lead-status', LeasStatusController::class)
+        ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'])
+        ->names('lead-status');
+        
+        // Coaching Management
+    Route::resource('coaching', CoachingController::class)
+        ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'])
+        ->names('coaching');
+        
+        // Coaching Management
+    Route::resource('foreign-country', ForeignCountryController::class)
+        ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'])
+        ->names('foreign-country');
         
 });

@@ -2,7 +2,7 @@
 
 namespace App\DataTables\Team\Setting;
 
-use App\Models\LeadType;
+use App\Models\ForeignCountry;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class LeadTypeDataTable extends DataTable
+class ForeignCountryDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -23,16 +23,16 @@ class LeadTypeDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', fn($row) => $this->renderAction($row))
-            ->addColumn('lead_type', fn($row) => $this->renderLeadType($row))
-            ->filterColumn('lead_type', function($query, $keyword) {
+            ->addColumn('country', fn($row) => $this->renderForeignCountry($row))
+            ->filterColumn('country', function($query, $keyword) {
                 $query->where('name', 'like', "%{$keyword}%");
             })
             ->addColumn('status', fn($row) => $this->renderStatus($row))
-            ->rawColumns(['action', 'lead_type', 'status'])
+            ->rawColumns(['action', 'country', 'status'])
             ->setRowId('id');
     }
 
-    public function query(LeadType $model): QueryBuilder
+    public function query(ForeignCountry $model): QueryBuilder
     {
         return $model->newQuery(); // You can add ->limit(22) if needed
     }
@@ -40,7 +40,7 @@ class LeadTypeDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('lead_type-table')
+            ->setTableId('country-table')
             ->setTableAttribute('class', 'kt-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
@@ -52,7 +52,7 @@ class LeadTypeDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('lead_type')->title('Lead Type')->exportable(false)->printable(true)->width(200)->addClass('text-start')->searchable(true),
+            Column::computed('country')->title('Country')->exportable(false)->printable(true)->width(200)->addClass('text-start')->searchable(true),
             Column::make('status')->width(130),
             Column::computed('action')
                 // ->title('Actions')
@@ -85,18 +85,18 @@ class LeadTypeDataTable extends DataTable
 
     protected function filename(): string
     {
-        return 'LeadType_' . date('YmdHis');
+        return 'ForeignCountry_' . date('YmdHis');
     }
 
     // Dummy render methods for customization
     protected function renderAction($row): string
     {
-        $button = '<a href="'.route('team.settings.lead-types.edit', $row->id).'" class="btn btn-sm btn-primary"><i class="ki-filled ki-notepad-edit text-2xl me-2"></i></a>';
+        $button = '<a href="'.route('team.settings.foreign-country.edit', $row->id).'" class="btn btn-sm btn-primary"><i class="ki-filled ki-notepad-edit text-2xl me-2"></i></a>';
         $deleteBtn = '<button type="button" onclick="openDeleteModal(' . $row->id . ')" ><i class="ki-filled ki-trash text-2xl"></i></button>';
         return $button. ' ' .$deleteBtn;
     }
 
-    protected function renderLeadType($row): string
+    protected function renderForeignCountry($row): string
     {
         return  e($row->name);
     }
