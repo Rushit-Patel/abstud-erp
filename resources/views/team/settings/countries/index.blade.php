@@ -64,17 +64,32 @@ $breadcrumbs = [
                 </div>
             </div> --}}
 
-         <x-team.card title="Countries List" headerClass="">
-                    <div class="grid lg:grid-cols-1 gap-y-5 lg:gap-7.5 items-stretch  pb-5">
-                        <div class="lg:col-span-1">
-                            {{ $dataTable->table() }}
-                        </div>
-
+            <x-team.card title="Countries List" headerClass="">
+                <div class="grid lg:grid-cols-1 gap-y-5 lg:gap-7.5 items-stretch  pb-5">
+                    <div class="lg:col-span-1">
+                        {{ $dataTable->table() }}
                     </div>
-                </x-team.card>
 
+                </div>
+            </x-team.card>
+        </div>        
+        <div id="deleteModal" class="fixed inset-0 z-50 hidden flex items-center justify-center backdrop-blur-sm bg-opacity-50">
+            <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg border border-gray-300">
+                <h2 class="text-lg font-semibold mb-4">Delete Country</h2>
+                <p class="mb-6">Are you sure you want to delete this country?</p>
+                
+                <form id="deleteForm" action="{{ route('team.settings.countries.destroy', '__id__') }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="flex justify-end gap-2">
+                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
+                        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </x-slot>
+
         @push('scripts')
         @vite([
             'resources/js/team/vendors/dataTables.min.js',
@@ -82,28 +97,33 @@ $breadcrumbs = [
             'resources/js/team/vendors/dataTables.buttons.js'
         ])
         {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-    @endpush
 
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete this country?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-        <form id="deleteForm" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger">Yes, Delete</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+        <script>
+            function openDeleteModal(id) {
+                const modal = document.getElementById('deleteModal');
+                const form = document.getElementById('deleteForm');
+
+                if (!form.dataset.baseAction) {
+                    form.dataset.baseAction = form.getAttribute('action');
+                }
+
+                const newAction = form.dataset.baseAction.replace('__id__', id);
+                form.setAttribute('action', newAction);
+
+                modal.classList.remove('hidden');
+            }
+
+            function closeModal() {
+                const modal = document.getElementById('deleteModal');
+                const form = document.getElementById('deleteForm');
+
+                if (form.dataset.baseAction) {
+                    form.setAttribute('action', form.dataset.baseAction);
+                }
+
+                modal.classList.add('hidden');
+            }
+        </script>
+    @endpush
 
 </x-team.layout.app>
