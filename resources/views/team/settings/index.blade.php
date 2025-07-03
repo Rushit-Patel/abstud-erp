@@ -67,8 +67,8 @@ $breadcrumbs = [
                 />
                 <x-team.cards.setting-sm-card 
                     title="Lead Type" 
-                    icon="user-interface"
-                    link="{{ route('team.settings.lead-types.index') ?? '#' }}"
+                    icon="map"
+                    link="{{ route('team.settings.cities.index') ?? '#' }}"
                 />
                 <x-team.cards.setting-sm-card 
                     title="Purpose" 

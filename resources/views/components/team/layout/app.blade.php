@@ -53,7 +53,8 @@
             }
             document.documentElement.classList.add(themeMode);
         }
-    </script>    <div class="flex grow">
+    </script>
+    <div class="flex grow">
         <x-team.navigation.sidebar :appData="$appData" />
         <div class="kt-wrapper flex grow flex-col">
             <x-team.layout.header 
