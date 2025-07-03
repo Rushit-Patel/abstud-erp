@@ -49,7 +49,7 @@ class LeadTypeDataTable extends DataTable
             ->selectStyleSingle();
     }
 
-    public function getColumns(): array
+    public function getColumns(): array 
     {
         return [
             Column::computed('lead_type')->title('Lead Type')->exportable(false)->printable(true)->width(200)->addClass('text-start')->searchable(true),
