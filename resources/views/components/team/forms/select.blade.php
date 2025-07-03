@@ -19,6 +19,8 @@
         class="kt-select" 
         data-kt-select="true"
         data-kt-select-placeholder="{{ $placeholder }}"
+        data-kt-select-enable-search="true"
+        data-kt-select-search-placeholder="Search..."
         data-kt-select-config='{
             "optionsClass": "kt-scrollable overflow-auto max-h-[250px]"{{ $searchable ? ', "search": true' : '' }}
         }'

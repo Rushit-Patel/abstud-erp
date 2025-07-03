@@ -154,7 +154,8 @@ class ImportLocationData extends Command
         $bar->start();
 
         foreach ($states as $stateData) {
-            State::updateOrCreate(
+            try {
+                State::updateOrCreate(
                 ['id' => $stateData['id']],
                 [
                     'country_id' => $stateData['country_id'],
@@ -163,6 +164,9 @@ class ImportLocationData extends Command
                     'is_active' => $stateData['is_active'],
                 ]
             );
+            } catch (\Throwable $th) {
+                \Log::error('Error Updating State: ' . json_encode($stateData) . ' - ' . $th->getMessage());
+            }
             $bar->advance();
         }
 

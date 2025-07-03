@@ -47,28 +47,4 @@ class CompanySetting extends Model
         $settings = self::getSettings();
         return $settings && $settings->is_setup_completed;
     }
-
-    /**
-     * Get the associated country
-     */
-    public function country()
-    {
-        return $this->belongsTo(Country::class);
-    }
-
-    /**
-     * Get the associated state
-     */
-    public function state()
-    {
-        return $this->belongsTo(State::class);
-    }
-
-    /**
-     * Get the associated city
-     */
-    public function city()
-    {
-        return $this->belongsTo(City::class);
-    }
 }

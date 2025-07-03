@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Team\SystemSettings;
 
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use App\Models\CompanySetting;
+use App\Models\Country;
+use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -25,7 +28,18 @@ class CompanySettingsController extends Controller
     public function edit()
     {
         $company = CompanySetting::getSettings();
-        return view('team.settings.company.edit', compact('company'));
+        $countries = Country::orderBy('name')->get();
+        
+        // Get states and cities based on existing company location
+        $states = $company && $company->country_id 
+            ? State::where('country_id', $company->country_id)->orderBy('name')->get()
+            : collect();
+            
+        $cities = $company && $company->state_id 
+            ? City::where('state_id', $company->state_id)->orderBy('name')->get()
+            : collect();
+        
+        return view('team.settings.company.edit', compact('company', 'countries', 'states', 'cities'));
     }
 
     /**
@@ -41,9 +55,9 @@ class CompanySettingsController extends Controller
             'phone' => 'nullable|string|max:20',
             'website_url' => 'nullable|url|max:255',
             'company_address' => 'nullable|string|max:1000',
-            'city' => 'nullable|string|max:100',
-            'state' => 'nullable|string|max:100',
-            'country' => 'nullable|string|max:100',
+            'country_id' => 'required|exists:countries,id',
+            'state_id' => 'required|exists:states,id',
+            'city_id' => 'required|exists:cities,id',
             'postal_code' => 'nullable|string|max:20',
             'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'company_favicon' => 'nullable|image|mimes:ico,png,jpg|max:1024',
@@ -52,6 +66,22 @@ class CompanySettingsController extends Controller
 
         $data = $request->except(['company_logo', 'company_favicon']);
         $data['is_setup_completed'] = $request->has('is_setup_completed');
+
+        // Get location names from IDs
+        if ($request->country_id) {
+            $country = Country::find($request->country_id);
+            $data['country'] = $country->name;
+        }
+        
+        if ($request->state_id) {
+            $state = State::find($request->state_id);
+            $data['state'] = $state->name;
+        }
+        
+        if ($request->city_id) {
+            $city = City::find($request->city_id);
+            $data['city'] = $city->name;
+        }
 
         // Handle logo upload
         if ($request->hasFile('company_logo')) {
@@ -173,5 +203,29 @@ class CompanySettingsController extends Controller
             'success' => true,
             'message' => 'Favicon removed successfully.'
         ]);
+    }
+
+    /**
+     * Get states by country ID for AJAX calls
+     */
+    public function getStatesByCountry($countryId)
+    {
+        $states = State::where('country_id', $countryId)
+                      ->orderBy('name')
+                      ->get(['id', 'name']);
+        
+        return response()->json($states);
+    }
+
+    /**
+     * Get cities by state ID for AJAX calls
+     */
+    public function getCitiesByState($stateId)
+    {
+        $cities = City::where('state_id', $stateId)
+                     ->orderBy('name')
+                     ->get(['id', 'name']);
+        
+        return response()->json($cities);
     }
 }
