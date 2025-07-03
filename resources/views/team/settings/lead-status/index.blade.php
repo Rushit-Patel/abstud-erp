@@ -2,7 +2,7 @@
 $breadcrumbs = [
     ['title' => 'Home', 'url' => route('team.dashboard')],
     ['title' => 'Settings', 'url' => route('team.settings.index')],
-    ['title' => 'Lead Type Management']
+    ['title' => 'Lead Status Management']
 ];
 @endphp
 
@@ -12,27 +12,27 @@ $breadcrumbs = [
     ])
 @endpush
 
-<x-team.layout.app title="Lead Type Management" :breadcrumbs="$breadcrumbs">
+<x-team.layout.app title="Lead Status Management" :breadcrumbs="$breadcrumbs">
     <x-slot name="content">
         <div class="kt-container-fixed">
             <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
                 <div class="flex flex-col justify-center gap-2">
                     <h1 class="text-xl font-medium leading-none text-mono">
-                        Lead Type Management
+                        Lead Status Management
                     </h1>
                     <div class="flex items-center gap-2 text-sm font-normal text-secondary-foreground">
                         Manage lead types and their status configurations
                     </div>
                 </div>
                 <div class="flex items-center gap-2.5">
-                    <a href="{{ route('team.settings.lead-types.create') }}" class="kt-btn kt-btn-primary">
+                    <a href="{{ route('team.settings.lead-status.create') }}" class="kt-btn kt-btn-primary">
                         <i class="ki-filled ki-plus"></i>
-                        Add Lead Type
+                        Add Lead Status
                     </a>
                 </div>
             </div>
 
-            <x-team.card title="Lead Types List" headerClass="">
+            <x-team.card title="Lead Status List" headerClass="">
                 <div class="grid lg:grid-cols-1 gap-y-5 lg:gap-7.5 items-stretch pb-5">
                     <div class="lg:col-span-1">
                         {{ $dataTable->table() }}
@@ -45,10 +45,10 @@ $breadcrumbs = [
         
          <div id="deleteModal" class="fixed inset-0 z-50 hidden flex items-center justify-center backdrop-blur-sm bg-opacity-50">
             <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg border border-gray-300">
-                <h2 class="text-lg font-semibold mb-4">Delete Lead Type</h2>
-                <p class="mb-6">Are you sure you want to delete this lead-type?</p>
+                <h2 class="text-lg font-semibold mb-4">Delete Lead Status</h2>
+                <p class="mb-6">Are you sure you want to delete this Lead Status?</p>
                 
-                <form id="deleteForm" action="{{ route('team.settings.countries.destroy', '__id__') }}" method="POST">
+                <form id="deleteForm" action="{{ route('team.settings.lead-status.destroy', '__id__') }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <div class="flex justify-end gap-2">
