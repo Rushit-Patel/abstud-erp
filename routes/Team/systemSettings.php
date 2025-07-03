@@ -9,6 +9,7 @@ use App\Http\Controllers\Team\SystemSettings\PermissionsController;
 use App\Http\Controllers\Team\SystemSettings\CountriesController;
 use App\Http\Controllers\Team\SystemSettings\StatesController;
 use App\Http\Controllers\Team\SystemSettings\CitiesController;
+use App\Http\Controllers\Team\SystemSettings\LeadTypesController;
 use Illuminate\Support\Facades\Route;
 
 // System Settings Routes - Master Administration Panel
@@ -73,5 +74,12 @@ Route::prefix('settings')->name('settings.')->group(function () {
         ->names('cities');
     Route::patch('cities/{city}/toggle-status', [CitiesController::class, 'toggleStatus'])
         ->name('cities.toggle-status');
+        
+    // Lead Type Management
+    Route::resource('lead-types', LeadTypesController::class)
+        ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'])
+        ->names('lead-types');
+    Route::patch('lead-types/{leadType}/toggle-status', [LeadTypesController::class, 'toggleStatus'])
+        ->name('lead-types.toggle-status');
         
 });
