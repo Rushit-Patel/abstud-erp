@@ -21,25 +21,25 @@ $breadcrumbs = [
         <div class="kt-container-fixed">
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5 lg:gap-7.5">
                 {{-- Company Info Card --}}
-                <x-team.cards.setting-card 
-                    icon="ki-office-bag" 
-                    title="Company Info" 
+                <x-team.cards.setting-card
+                    icon="ki-office-bag"
+                    title="Company Info"
                     description="Manage your company's basic information, contact details, and business profile settings."
                     link="{{ route('team.settings.company.index') ?? '#' }}"
                 />
-                
+
                 {{-- Manage Branch Card --}}
-                <x-team.cards.setting-card 
-                    icon="ki-geolocation" 
-                    title="Manage Branch" 
+                <x-team.cards.setting-card
+                    icon="ki-geolocation"
+                    title="Manage Branch"
                     description="Add, edit, and organize branch locations, assign managers, and configure branch-specific settings."
                     link="{{ route('team.settings.branches.index') ?? '#' }}"
                 />
-                
+
                 {{-- Manage User Account Card --}}
-                <x-team.cards.setting-card 
-                    icon="ki-profile-circle" 
-                    title="Manage User Account" 
+                <x-team.cards.setting-card
+                    icon="ki-profile-circle"
+                    title="Manage User Account"
                     description="Control user permissions, roles, account settings, and access management for team members."
                     link="{{ route('team.settings.users.index') ?? '#' }}"
                 />
@@ -50,53 +50,53 @@ $breadcrumbs = [
                 </a>
             </div>
             <div class="grid sm:grid-cols-4 xl:grid-cols-6 gap-5 mb-2">
-                <x-team.cards.setting-sm-card 
-                    title="Country" 
+                <x-team.cards.setting-sm-card
+                    title="Country"
                     icon="geolocation"
                     link="{{ route('team.settings.countries.index') ?? '#' }}"
                 />
-                <x-team.cards.setting-sm-card 
-                    title="State" 
+                <x-team.cards.setting-sm-card
+                    title="State"
                     icon="map"
                     link="{{ route('team.settings.states.index') ?? '#' }}"
                 />
-                <x-team.cards.setting-sm-card 
-                    title="City" 
+                <x-team.cards.setting-sm-card
+                    title="City"
                     icon="map"
                     link="{{ route('team.settings.cities.index') ?? '#' }}"
                 />
-                <x-team.cards.setting-sm-card 
-                    title="Lead Type" 
+                <x-team.cards.setting-sm-card
+                    title="Lead Type"
                     icon="map"
                     link="{{ route('team.settings.lead-types.index') ?? '#' }}"
                 />
-                <x-team.cards.setting-sm-card 
-                    title="Purpose" 
+                <x-team.cards.setting-sm-card
+                    title="Purpose"
                     icon="map"
                     link="{{ route('team.settings.purpose.index') ?? '#' }}"
                 />
-                <x-team.cards.setting-sm-card 
-                    title="Source" 
+                <x-team.cards.setting-sm-card
+                    title="Source"
                     icon="map"
                     link="{{ route('team.settings.source.index') ?? '#' }}"
                 />
-                <x-team.cards.setting-sm-card 
-                    title="Lead Status" 
+                <x-team.cards.setting-sm-card
+                    title="Lead Status"
                     icon="map"
                     link="{{ route('team.settings.lead-status.index') ?? '#' }}"
                 />
-                <x-team.cards.setting-sm-card 
-                    title="Lead Sub Status" 
+                <x-team.cards.setting-sm-card
+                    title="Lead Sub Status"
                     icon="map"
-                    link="{{ route('team.settings.cities.index') ?? '#' }}"
+                    link="{{ route('team.settings.lead-sub-status.index') ?? '#' }}"
                 />
-                <x-team.cards.setting-sm-card 
-                    title="Destination Country" 
+                <x-team.cards.setting-sm-card
+                    title="Destination Country"
                     icon="map"
                     link="{{ route('team.settings.foreign-country.index') ?? '#' }}"
                 />
-                <x-team.cards.setting-sm-card 
-                    title="Coaching" 
+                <x-team.cards.setting-sm-card
+                    title="Coaching"
                     icon="map"
                     link="{{ route('team.settings.coaching.index') ?? '#' }}"
                 />

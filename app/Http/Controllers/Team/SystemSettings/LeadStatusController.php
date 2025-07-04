@@ -7,7 +7,7 @@ use App\Models\LeadStatus;
 use Illuminate\Http\Request;
 use App\DataTables\Team\Setting\LeadStatusDataTable;
 
-class LeasStatusController extends Controller
+class LeadStatusController extends Controller
 {
     /**
      * Display a listing of LeadStatus
