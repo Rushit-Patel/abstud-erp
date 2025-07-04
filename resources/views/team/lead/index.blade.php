@@ -12,6 +12,19 @@
 <x-team.layout.app title="Dashboard" :breadcrumbs="$breadcrumbs">
     <x-slot name="content">
         <div class="kt-container-fixed">
+        <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
+                <div class="flex flex-col justify-center gap-2">
+                    <h1 class="text-xl font-medium leading-none text-mono">
+                        Client Management
+                    </h1>
+                </div>
+                <div class="flex items-center gap-2.5">
+                    <a href="{{ route('team.lead.create') }}" class="kt-btn kt-btn-primary">
+                        <i class="ki-filled ki-plus"></i>
+                        Add Client
+                    </a>
+                </div>
+            </div>
             <div class="grid gap-2 lg:gap-2">
                 {{-- Lead Dashboard Start --}}
                 <x-team.card title="Leads Statistics" headerClass="">
@@ -29,7 +42,7 @@
                         <div class="lg:col-span-1">
                             {{ $dataTable->table() }}
                         </div>
-                        
+
                     </div>
                 </x-team.card>
 
