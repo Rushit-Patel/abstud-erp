@@ -61,7 +61,7 @@ $breadcrumbs = [
                                             <td class="py-2 text-center">
                                                 <div class="flex justify-center items-center">
                                                     @if($company && $company->company_logo)
-                                                        <div class="size-16 rounded-lg overflow-hidden border border-input">
+                                                        <div class="rounded-lg overflow-hidden border border-input">
                                                             <img src="{{ Storage::url($company->company_logo) }}" 
                                                                  alt="{{ $company->company_name }}" 
                                                                  class="w-full h-full object-cover">

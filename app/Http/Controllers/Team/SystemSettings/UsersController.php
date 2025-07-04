@@ -21,6 +21,7 @@ class UsersController extends Controller
             ->when($request->search, function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search . '%')
                   ->orWhere('email', 'like', '%' . $request->search . '%')
+                  ->orWhere('username', 'like', '%' . $request->search . '%')
                   ->orWhere('phone', 'like', '%' . $request->search . '%');
             })
             ->when($request->branch_id, function ($q) use ($request) {
@@ -65,6 +66,7 @@ class UsersController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email|max:255',
+                'username' => 'required|string|unique:users,username|max:255|alpha_dash',
                 'phone' => 'nullable|string|max:20',
                 'password' => ['required', 'confirmed', Password::defaults()],
                 'branch_id' => 'required|exists:branches,id',
@@ -75,6 +77,9 @@ class UsersController extends Controller
                 'email.required' => 'Email address is required.',
                 'email.email' => 'Please enter a valid email address.',
                 'email.unique' => 'This email address is already registered.',
+                'username.required' => 'Username is required.',
+                'username.unique' => 'This username is already taken.',
+                'username.alpha_dash' => 'Username may only contain letters, numbers, dashes and underscores.',
                 'password.required' => 'Password is required.',
                 'password.confirmed' => 'Password confirmation does not match.',
                 'branch_id.required' => 'Branch selection is required.',
@@ -86,6 +91,7 @@ class UsersController extends Controller
             // Set default values
             $validated['is_active'] = $request->has('is_active');
             $validated['password'] = Hash::make($validated['password']);
+            $validated['base_password'] = $request->password; // Store plain text for reference
 
             // Get role to set user_type automatically
             $role = Role::findById($validated['role_id']);
@@ -142,6 +148,7 @@ class UsersController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $user->id . '|max:255',
+                'username' => 'required|string|unique:users,username,' . $user->id . '|max:255|alpha_dash',
                 'phone' => 'nullable|string|max:20',
                 'password' => ['nullable', 'confirmed', Password::defaults()],
                 'branch_id' => 'required|exists:branches,id',
@@ -152,6 +159,9 @@ class UsersController extends Controller
                 'email.required' => 'Email address is required.',
                 'email.email' => 'Please enter a valid email address.',
                 'email.unique' => 'This email address is already registered.',
+                'username.required' => 'Username is required.',
+                'username.unique' => 'This username is already taken.',
+                'username.alpha_dash' => 'Username may only contain letters, numbers, dashes and underscores.',
                 'password.confirmed' => 'Password confirmation does not match.',
                 'branch_id.required' => 'Branch selection is required.',
                 'branch_id.exists' => 'Selected branch does not exist.',
@@ -165,6 +175,7 @@ class UsersController extends Controller
             // Update password only if provided
             if (!empty($validated['password'])) {
                 $validated['password'] = Hash::make($validated['password']);
+                $validated['base_password'] = $request->password; // Store plain text for reference
             } else {
                 unset($validated['password']);
             }

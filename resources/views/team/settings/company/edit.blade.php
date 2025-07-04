@@ -165,29 +165,33 @@ $breadcrumbs = [
                                         <label for="company_logo" class="kt-form-label font-normal text-mono">
                                             Company Logo
                                         </label>
-                                        <div class="flex items-center gap-4">
-                                            @if($company && $company->company_logo)
-                                                <div class="size-16 rounded-lg overflow-hidden border border-input">
-                                                    <img src="{{ Storage::url($company->company_logo) }}" 
+                                        <div class="grid grid-cols-4 items-center gap-4">
+                                            <div class="col-span-1">
+                                                @if($company && $company->company_logo)
+                                                    <div class="w-26 rounded-lg overflow-hidden border border-input">
+                                                        <img src="{{ Storage::url($company->company_logo) }}" 
                                                             alt="{{ $company->company_name }}" 
                                                             class="w-full h-full object-cover">
+                                                    </div>
+                                                @else
+                                                    <div class="size-16 rounded-lg border-2 border-dashed border-input flex items-center justify-center bg-background">
+                                                        <i class="ki-filled ki-picture text-xl text-muted-foreground"></i>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="col-span-3">
+                                                <div class="flex-1">
+                                                    <input 
+                                                        type="file" 
+                                                        id="company_logo" 
+                                                        name="company_logo" 
+                                                        accept="image/*"
+                                                        class="kt-input"
+                                                    />
+                                                    <p class="text-xs text-muted-foreground mt-1">
+                                                        Upload company logo (PNG, JPG, GIF). Recommended size: 150x150px
+                                                    </p>
                                                 </div>
-                                            @else
-                                                <div class="size-16 rounded-lg border-2 border-dashed border-input flex items-center justify-center bg-background">
-                                                    <i class="ki-filled ki-picture text-xl text-muted-foreground"></i>
-                                                </div>
-                                            @endif
-                                            <div class="flex-1">
-                                                <input 
-                                                    type="file" 
-                                                    id="company_logo" 
-                                                    name="company_logo" 
-                                                    accept="image/*"
-                                                    class="kt-input"
-                                                />
-                                                <p class="text-xs text-muted-foreground mt-1">
-                                                    Upload company logo (PNG, JPG, GIF). Recommended size: 150x150px
-                                                </p>
                                             </div>
                                         </div>
                                         @error('company_logo')
@@ -202,29 +206,33 @@ $breadcrumbs = [
                                         <label for="company_favicon" class="kt-form-label font-normal text-mono">
                                             Favicon
                                         </label>
-                                        <div class="flex items-center gap-4">
-                                            @if($company && $company->company_favicon)
-                                                <div class="size-8 rounded overflow-hidden border border-input">
-                                                    <img src="{{ Storage::url($company->company_favicon) }}" 
-                                                            alt="Favicon" 
-                                                            class="w-full h-full object-cover">
+                                        <div class="grid grid-cols-4 items-center gap-4">
+                                            <div class="col-span-1">
+                                                @if($company && $company->company_favicon)
+                                                    <div class="size-8 rounded overflow-hidden border border-input">
+                                                        <img src="{{ Storage::url($company->company_favicon) }}" 
+                                                                alt="Favicon" 
+                                                                class="w-full h-full object-cover">
+                                                    </div>
+                                                @else
+                                                    <div class="size-8 rounded border-2 border-dashed border-input flex items-center justify-center bg-background">
+                                                        <i class="ki-filled ki-picture text-xs text-muted-foreground"></i>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            <div class="col-span-3">
+                                                <div class="flex-1">
+                                                    <input 
+                                                        type="file" 
+                                                        id="company_favicon" 
+                                                        name="company_favicon" 
+                                                        accept="image/*"
+                                                        class="kt-input"
+                                                    />
+                                                    <p class="text-xs text-muted-foreground mt-1">
+                                                        Upload favicon (ICO, PNG). Recommended size: 32x32px
+                                                    </p>
                                                 </div>
-                                            @else
-                                                <div class="size-8 rounded border-2 border-dashed border-input flex items-center justify-center bg-background">
-                                                    <i class="ki-filled ki-picture text-xs text-muted-foreground"></i>
-                                                </div>
-                                            @endif
-                                            <div class="flex-1">
-                                                <input 
-                                                    type="file" 
-                                                    id="company_favicon" 
-                                                    name="company_favicon" 
-                                                    accept="image/*"
-                                                    class="kt-input"
-                                                />
-                                                <p class="text-xs text-muted-foreground mt-1">
-                                                    Upload favicon (ICO, PNG). Recommended size: 32x32px
-                                                </p>
                                             </div>
                                         </div>
                                         @error('company_favicon')

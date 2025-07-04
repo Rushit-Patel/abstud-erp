@@ -18,10 +18,15 @@ class PasswordResetLinkController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => ['required', 'email'],
+            'username' => ['required', 'string'],
         ]);
 
-        Password::sendResetLink($request->only('email'));
+        // Find user by username and get their email for password reset
+        $user = \App\Models\User::where('username', $request->username)->first();
+        
+        if ($user) {
+            Password::sendResetLink(['email' => $user->email]);
+        }
 
         return back()->with('status', __('A reset link will be sent if the account exists.'));
     }

@@ -2,9 +2,15 @@
 <x-team.auth.layout title="Team Login - AbstudERP">
     
     <x-team.forms.login-form :action="route('team.login.store')">
-        {{-- Email Field --}}
+        {{-- Display Validation Errors --}}
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                {{ $error }}
+            @endforeach
+        @endif
 
-        <x-team.forms.input label="User Name" name="email" type="text" placeholder="Enter your User Name" :required="true" />
+        {{-- Username Field --}}
+        <x-team.forms.input label="User Name" name="username" type="text" placeholder="Enter your User Name" :required="true" />
 
         <x-team.forms.input label="Password" name="password" type="password" placeholder="Enter your password" :required="true" />
             

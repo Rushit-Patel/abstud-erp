@@ -97,6 +97,25 @@
 
             <!-- Right Column - Form -->
             <div class="px-8 py-12">
+                <!-- Display Validation Errors -->
+                @if ($errors->any())
+                <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg border border-red-200 dark:border-red-800">
+                    <div class="flex">
+                        <svg class="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-red-900 dark:text-red-100">Please correct the following errors:</h4>
+                            <ul class="text-sm text-red-700 dark:text-red-200 mt-2 list-disc list-inside space-y-1">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                @endif
+
                 <form action="{{ route('setup.admin.store') }}" method="POST">
                     @csrf
 
@@ -129,12 +148,22 @@
                             :value="old('phone')"
                             placeholder="+1 (555) 123-4567"
                         />
-
+                        
                         <!-- Password Section -->
                         <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Account Security</h3>
                             
                             <div class="space-y-4">
+                                <!-- Username -->
+                                <x-team.forms.input 
+                                    name="username" 
+                                    label="Username" 
+                                    type="text"
+                                    :value="old('username')"
+                                    placeholder="Enter your username"
+                                    required="true"
+                                />
+                                
                                 <!-- Password -->
                                 <x-team.forms.input 
                                     name="password" 

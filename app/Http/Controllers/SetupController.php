@@ -156,7 +156,8 @@ class SetupController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|regex:/^[a-zA-Z\s]+$/',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
+            'username' => 'required|string|max:255|unique:users|alpha_dash|min:3',
             'password' => ['required', 'confirmed'],
             'phone' => 'nullable|string|regex:/^[\+]?[0-9\(\)\-\s]+$/',
         ], [
@@ -164,9 +165,11 @@ class SetupController extends Controller
             'name.regex' => 'Name should only contain letters and spaces.',
             'email.required' => 'Email address is required.',
             'email.email' => 'Please enter a valid email address.',
-            'email.unique' => 'This email is already registered.',
+            'username.required' => 'Username is required.',
+            'username.unique' => 'This username is already taken.',
+            'username.alpha_dash' => 'Username may only contain letters, numbers, dashes and underscores.',
+            'username.min' => 'Username must be at least 3 characters.',
             'password.required' => 'Password is required.',
-            'password.min' => 'Password must be at least 8 characters.',
             'password.confirmed' => 'Password confirmation does not match.',
             'phone.regex' => 'Please enter a valid phone number.',
         ]);
@@ -179,7 +182,9 @@ class SetupController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
+                'username' => $request->username,
                 'password' => Hash::make($request->password),
+                'base_password' => base64_encode($request->password),
                 'phone' => $request->phone,
                 'branch_id' => $branch ? $branch->id : null,
                 'is_active' => true,

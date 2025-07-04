@@ -17,30 +17,21 @@ class AdminAuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'username' => 'required|string',
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('username', 'password');
 
         if (Auth::guard('web')->attempt($credentials, $request->boolean('remember'))) {
+            $user = Auth::user();
+            Auth::login($user, true);
             $request->session()->regenerate();
-            
-            $user = Auth::guard('web')->user();
-            
-            // Check if user is admin or super admin
-            if (!$user->isAdmin()) {
-                Auth::guard('web')->logout();
-                throw ValidationException::withMessages([
-                    'email' => 'Access denied. Admin privileges required.',
-                ]);
-            }
-
-            return redirect()->intended(route('team.dashboard'));
+            return redirect()->route('team.dashboard');
         }
 
         throw ValidationException::withMessages([
-            'email' => 'The provided credentials do not match our records.',
+            'username' => 'The provided credentials do not match our records.',
         ]);
     }
 

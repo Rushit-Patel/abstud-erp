@@ -31,7 +31,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
         'password',
+        'base_password',
         'user_type',
         'phone',
         'profile_photo',
@@ -83,54 +85,13 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user is super admin
-     */
-    public function isSuperAdmin(): bool
-    {
-        return $this->user_type === 'super_admin' || $this->hasGuardRole('Super Admin');
-    }
-
-    /**
-     * Check if user is admin
-     */
-    public function isAdmin(): bool
-    {
-        return in_array($this->user_type, ['admin', 'super_admin']) || 
-               $this->hasGuardRole('Admin') || 
-               $this->hasGuardRole('Super Admin');
-    }
-
-    /**
-     * Check if user is manager
-     */
-    public function isManager(): bool
-    {
-        return $this->user_type === 'manager' || $this->hasGuardRole('Manager');
-    }
-
-    /**
-     * Check if user is staff
-     */
-    public function isStaff(): bool
-    {
-        return $this->user_type === 'staff' || $this->hasGuardRole('Staff');
-    }
-
-    /**
      * Get user's full permissions including role-based permissions
      */
     public function getAllUserPermissions(): array
     {
         return $this->getAllGuardPermissions()->pluck('name')->toArray();
-    }    /**
-     * Check if user can access admin panel
-     */
-    public function canAccessAdminPanel(): bool
-    {
-        return $this->hasGuardRole('Super Admin') || 
-               $this->hasGuardRole('Admin') || 
-               $this->hasGuardRole('Manager');
-    }
+    } 
+
 
     /**
      * Get user's role display name
@@ -154,13 +115,6 @@ class User extends Authenticatable
         return $query->where('is_active', true);
     }
 
-    /**
-     * Scope to get users by type
-     */
-    public function scopeByType($query, string $type)
-    {
-        return $query->where('user_type', $type);
-    }
 
     /**
      * Scope to get users with specific role
@@ -172,26 +126,39 @@ class User extends Authenticatable
         });
     }
 
-    /**
-     * Boot method to assign default role
-     */
-    protected static function boot()
-    {
-        parent::boot();
 
-        static::created(function ($user) {
-            // Assign default role based on user_type if no role is assigned
-            if ($user->roles()->count() === 0) {
-                $defaultRole = match($user->user_type) {
-                    'super_admin' => 'Super Admin',
-                    'admin' => 'Admin',
-                    'manager' => 'Manager',
-                    'staff' => 'Staff',
-                    default => 'Staff'
-                };
-                
-                $user->assignGuardRole($defaultRole);
-            }
-        });
+    /**
+     * Get the name of the unique identifier for the user.
+     *
+     * @return string
+     */
+    public function getAuthIdentifierName()
+    {
+        return 'username';
+    }
+
+    public function getAuthIdentifier()
+    {
+        return $this->getAttribute($this->getAuthIdentifierName());
+    }
+    /**
+     * Find the user instance for the given username.
+     *
+     * @param  string  $username
+     * @return \App\Models\User|null
+     */
+    public function findForPassport($username)
+    {
+        return $this->where('username', $username)->first();
+    }
+
+    /**
+     * Get the username for authentication.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'username';
     }
 }
