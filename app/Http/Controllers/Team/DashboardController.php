@@ -8,13 +8,12 @@ use App\Models\Branch;
 use App\Models\User;
 use App\Models\Student;
 use App\Models\Partner;
-
+use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function index()
     {
         $company = CompanySetting::getSettings();
-        
         $stats = [
             'total_users' => User::where('is_active', true)->count(),
             'total_students' => 152,

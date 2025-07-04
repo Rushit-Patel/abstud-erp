@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\View\Composers\TeamAppComposer;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Http\View\Composers\HeaderComposer;
@@ -34,6 +35,11 @@ class AppServiceProvider extends ServiceProvider
         View::composer('components.team.forms.login-form', TeamAppComposer::class);
         View::composer('team.components.breadcrumbs', BreadcrumbComposer::class);
 
+
+        Auth::provider('username_eloquent', function ($app, array $config) {
+            return new UsernameUserProvider($app['hash'], $config['model']);
+        });
+        
         // Configure authentication redirects based on the request path
         Authenticate::redirectUsing(function ($request) {
             if ($request->is('team') || $request->is('team/*')) {

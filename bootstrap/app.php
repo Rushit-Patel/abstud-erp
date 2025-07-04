@@ -12,6 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
+            'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'company.setup' => \App\Http\Middleware\CheckCompanySetup::class,
             'guard' => \App\Http\Middleware\GuardSwitcher::class,

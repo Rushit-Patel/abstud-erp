@@ -3,31 +3,45 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class AdminAuthController extends Controller
 {
-    public function showLoginForm()
+    public function showLoginForm(): View
     {
         return view('auth.team.login');
     }
 
-    public function login(Request $request)
+    public function login(Request $request): RedirectResponse
     {
         $request->validate([
-            'username' => 'required|string',
-            'password' => 'required',
+            'username' => ['required', 'string'],
+            'password' => ['required'],
         ]);
 
-        $credentials = $request->only('username', 'password');
+        // Check if user exists and is active
+        $user = User::where('username', $request->username)->where('is_active', true)->first();
+        
+        if (!$user) {
+            throw ValidationException::withMessages([
+                'username' => 'Invalid credentials or inactive account.',
+            ]);
+        }
 
-        if (Auth::guard('web')->attempt($credentials, $request->boolean('remember'))) {
-            $user = Auth::user();
-            Auth::login($user, true);
+        // Attempt authentication
+        if (Auth::attempt([
+            'username' => $request->username,
+            'password' => $request->password,
+        ], $request->boolean('remember'))) {
+            
             $request->session()->regenerate();
-            return redirect()->route('team.dashboard');
+
+            return redirect()->intended(route('team.dashboard'));
         }
 
         throw ValidationException::withMessages([
@@ -35,10 +49,10 @@ class AdminAuthController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
-
+        
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
