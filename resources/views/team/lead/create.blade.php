@@ -46,7 +46,7 @@ $breadcrumbs = [
                                         <x-team.forms.input
                                             name="middle_name"
                                             label="Middle Name"
-                                            type="email"
+                                            type="text"
                                             placeholder="Enter middle_name"
                                             :value="old('middle_name')" />
 
