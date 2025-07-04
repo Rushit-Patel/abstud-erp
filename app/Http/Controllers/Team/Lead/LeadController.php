@@ -36,7 +36,7 @@ class LeadController extends Controller
     {
         try {
             $validated = $request->validate([
-                'name' => 'required',
+                'first_name' => 'required',
                 'status' => 'boolean',
             ], [
                 'name.required' => 'Source name is required.',
