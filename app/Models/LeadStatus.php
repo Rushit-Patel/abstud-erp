@@ -20,6 +20,10 @@ class LeadStatus extends Model
         'deleted_at' => 'datetime',
     ];
 
+    public function leadSubStatus(): HasMany
+    {
+        return $this->hasMany(LeadSubStatus::class);
+    }
     /**
      * Scope: Get only active lead types
      */

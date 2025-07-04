@@ -2,32 +2,32 @@
 $breadcrumbs = [
     ['title' => 'Home', 'url' => route('team.dashboard')],
     ['title' => 'Settings', 'url' => route('team.settings.index')],
-    ['title' => 'States', 'url' => route('team.settings.states.index')],
-    ['title' => 'Edit State']
+    ['title' => 'Lead Sub Status', 'url' => route('team.settings.lead-sub-status.index')],
+    ['title' => 'Edit Lead Sub Status']
 ];
 @endphp
 
-<x-team.layout.app title="Edit State" :breadcrumbs="$breadcrumbs">
+<x-team.layout.app title="Edit Lead Sub Status" :breadcrumbs="$breadcrumbs">
     <x-slot name="content">
         <div class="kt-container-fixed">
             <div class="flex flex-wrap items-center lg:items-end justify-between gap-5 pb-7.5">
                 <div class="flex flex-col justify-center gap-2">
                     <h1 class="text-xl font-medium leading-none text-mono">
-                        Edit State
+                        Edit Lead Sub Status
                     </h1>
                     <div class="flex items-center gap-2 text-sm font-normal text-secondary-foreground">
                         Update state or province
                     </div>
                 </div>
                 <div class="flex items-center gap-2.5">
-                    <a href="{{ route('team.settings.states.index') }}" class="kt-btn kt-btn-secondary">
+                    <a href="{{ route('team.settings.lead-sub-status.index') }}" class="kt-btn kt-btn-secondary">
                         <i class="ki-filled ki-black-left"></i>
-                        Back to States
+                        Back to Lead Sub Status
                     </a>
                 </div>
             </div>
 
-            <form action="{{ route('team.settings.states.update',$state) }}" method="POST">
+            <form action="{{ route('team.settings.lead-sub-status.update',$leadSubStatus) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="grid lg:grid-cols-2 gap-5 lg:gap-7.5">
@@ -37,17 +37,17 @@ $breadcrumbs = [
                             <div class="grid gap-5">
                                 <!-- Country Selection -->
                                 <div class="flex flex-col gap-1">
-                                    <label class="kt-form-label font-normal text-mono required">Country</label>
-                                    <select name="country_id" class="kt-select" required>
-                                        <option value="">Select Country</option>
-                                        @foreach($countries as $country)
-                                            <option value="{{ $country->id }}" {{ old('country_id', $state->country_id) == $country->id ? 'selected' : '' }}>
-                                                {{ $country->name }}
+                                    <label class="kt-form-label font-normal text-mono required">Lead status</label>
+                                    <select name="lead_status_id" class="kt-select" required>
+                                        <option value="">Select Lead status</option>
+                                        @foreach($leadStatues as $leadStatus)
+                                            <option value="{{ $leadStatus->id }}" {{ old('lead_status_id', $leadSubStatus->lead_status_id) == $leadStatus->id ? 'selected' : '' }}>
+                                                {{ $leadStatus->name }}
                                             </option>
                                         @endforeach
                                     </select>
 
-                                    @error('country_id')
+                                    @error('lead_status_id')
                                         <div class="text-danger text-sm">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -55,21 +55,12 @@ $breadcrumbs = [
                                 <!-- State Name -->
                                 <x-team.forms.input
                                     name="name"
-                                    label="State/Province Name"
+                                    label="Lead Sub Status Name"
                                     type="text"
-                                    placeholder="Enter state or province name"
+                                    placeholder="Enter lead sub status name"
                                     {{-- :value="old('name')"  --}}
-                                    :value="old('name', $state->name)"
+                                    :value="old('name', $leadSubStatus->name)"
                                     required />
-
-                                <!-- State Code -->
-                                <x-team.forms.input
-                                    name="state_code"
-                                    label="State Code"
-                                    type="text"
-                                    placeholder="e.g. CA, NY, TX"
-                                    maxlength="10"
-                                    :value="old('state_code' ,$state->state_code)" />
                             </div>
                         </x-team.card>
                     </div>
@@ -77,17 +68,17 @@ $breadcrumbs = [
                     <!-- Status Settings -->
                     <div class="col-span-1">
                         <x-team.card title="Status Settings">
-                            <div class="flex flex-col gap-1">
+                            <div class="flex flex-col gap-1 mt-4">
                                 <label class="kt-form-label font-normal text-mono">Status</label>
                                 <label class="kt-label">
                                     <input class="kt-checkbox kt-checkbox-sm"
-                                        name="is_active"
+                                        name="status"
                                         type="checkbox"
                                         value="1"
-                                        {{ old('is_active', true) ? 'checked' : '' }}
+                                        {{ old('status', true) ? 'checked' : '' }}
                                     />
                                     <span class="kt-checkbox-label">
-                                        Active (Enable this state for selection)
+                                        Active (Enable this status for selection)
                                     </span>
                                 </label>
                             </div>
@@ -97,7 +88,7 @@ $breadcrumbs = [
 
                 <!-- Form Actions -->
                 <div class="flex justify-end gap-3 mt-7.5">
-                    <a href="{{ route('team.settings.states.index') }}" class="kt-btn kt-btn-secondary">
+                    <a href="{{ route('team.settings.lead-sub-status.index') }}" class="kt-btn kt-btn-secondary">
                         Cancel
                     </a>
                     <button type="submit" class="kt-btn kt-btn-primary">

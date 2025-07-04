@@ -106,10 +106,8 @@ class CoachingController extends Controller
             $name = $coaching->name;
             $coaching->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => "Coaching '{$name}' has been deleted successfully."
-            ]);
+            return redirect()->route('team.settings.coaching.index')
+                ->with('success', "Coaching '{$name}' has been deleted successfully.");
 
         } catch (\Exception $e) {
             return response()->json([
@@ -126,9 +124,9 @@ class CoachingController extends Controller
     {
         try {
             $coaching->update(['status' => !$coaching->status]);
-            
+
             $status = $coaching->status ? 'activated' : 'deactivated';
-            
+
             return response()->json([
                 'success' => true,
                 'message' => "Coaching '{$coaching->name}' has been {$status} successfully.",

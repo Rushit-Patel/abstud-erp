@@ -104,12 +104,6 @@ class  PurposeController extends Controller
     {
         try {
             $purposeName = $purpose->name;
-            
-            // Check if purpose has states
-            if ($purpose->count() > 0) {
-                return back()->with('error', "Cannot delete '{$purposeName}' as it has associated states.");
-            }
-
             $purpose->delete();
 
             return redirect()->route('team.settings.purpose.index')
@@ -127,11 +121,11 @@ class  PurposeController extends Controller
     {
         try {
             $purpose->update(['status' => !$purpose->status]);
-            
+
             $status = $purpose->status ? 'activated' : 'deactivated';
-            
+
             return back()->with('success', "purpose '{$purpose->name}' has been {$status} successfully.");
-            
+
         } catch (\Exception $e) {
             return back()->with('error', 'Error updating purpose status: ' . $e->getMessage());
         }

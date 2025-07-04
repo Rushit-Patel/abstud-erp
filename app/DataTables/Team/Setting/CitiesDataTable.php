@@ -33,10 +33,10 @@ class CitiesDataTable extends DataTable
             })
             ->addColumn('status', fn($row) => $this->renderStatus($row))
 
-            
-            
-            
-            
+
+
+
+
             ->rawColumns(['action', 'country', 'status'])
             ->setRowId('id');
     }
@@ -104,7 +104,11 @@ class CitiesDataTable extends DataTable
     protected function renderAction($row): string
     {
         $button = '<a href="'.route('team.settings.cities.edit', $row->id).'" class="btn btn-sm btn-primary"><i class="ki-filled ki-notepad-edit text-2xl me-2"></i></a>';
-        $deleteBtn = '<button type="button" onclick="openDeleteModal(' . $row->id . ')" ><i class="ki-filled ki-trash text-2xl"></i></button>';
+        $deleteBtn = '
+            <button type="delete" data-kt-modal-toggle="#delete_modal" data-form_action="' . route('team.settings.cities.destroy', $row->id) . '">
+                <i class="ki-filled ki-trash text-2xl"></i>
+            </button>
+        ';
         return $button. ' ' .$deleteBtn;
     }
 
@@ -122,7 +126,7 @@ class CitiesDataTable extends DataTable
         $iconHtml = '<img src="'.e($row->state?->country->icon).'" alt="'.e($row->state?->country->name).'" class="inline-block size-4.5 rounded" loading="lazy">';
         return '<span class="ms-auto kt-badge kt-badge-stroke shrink-0">' . $iconHtml .' &nbsp;'. e($row->state?->country->name).'</span>';
     }
-    
+
     protected function renderStatus($row): string
     {
         $class = $this->getStatusBadgeClass($row->is_active);

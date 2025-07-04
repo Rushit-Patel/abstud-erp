@@ -30,38 +30,43 @@ $breadcrumbs = [
             <x-team.card title="Coaching Information" headerClass="">
                 <form action="{{ route('team.settings.coaching.store') }}" method="POST" class="form">
                     @csrf
-                    
+
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 py-5">
-                        <div class="flex flex-col gap-2.5">
-                            <label for="name" class="form-label required">Coaching Name</label>
-                            <input type="text" 
-                                   id="name" 
-                                   name="name" 
-                                   class="form-control @error('name') is-invalid @enderror" 
-                                   placeholder="Enter coaching name"
-                                   value="{{ old('name') }}"
-                                   required>
-                            @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <div class="col-span-1">
+                            <x-team.card title="Basic Information">
+                                <div class="grid gap-5">
+                                    <!-- Coaching Name -->
+                                    <x-team.forms.input
+                                        name="name"
+                                        label="Coaching Name"
+                                        type="text"
+                                        placeholder="Enter coaching name"
+                                        :value="old('name')"
+                                        required />
+                                </div>
+                            </x-team.card>
                         </div>
 
                         <!-- Status -->
-                        <div class="flex flex-col gap-2.5">
-                            <label class="form-label">Status</label>
-                            <div class="form-check">
-                                <input type="checkbox" 
-                                       id="status" 
-                                       name="status" 
-                                       class="form-check-input" 
-                                       value="1"
-                                       {{ old('status', true) ? 'checked' : '' }}>
-                                <label for="status" class="form-check-label">
-                                    Active
-                                </label>
-                            </div>
-                            <div class="text-2xs text-gray-600">
-                                Uncheck to make this coaching inactive
+                        <div class="col-span-1">
+                            <div class="grid gap-5 lg:gap-7.5">
+                                <!-- Status -->
+                                <x-team.card title="Status Settings">
+                                    <div class="flex flex-col gap-1 mt-4">
+                                        <label class="kt-form-label font-normal text-mono">Status</label>
+                                        <label class="kt-label">
+                                            <input class="kt-checkbox kt-checkbox-sm"
+                                                name="status"
+                                                type="checkbox"
+                                                value="1"
+                                                {{ old('status', true) ? 'checked' : '' }}
+                                            />
+                                            <span class="kt-checkbox-label">
+                                                Uncheck to make this coaching inactive
+                                            </span>
+                                        </label>
+                                    </div>
+                                </x-team.card>
                             </div>
                         </div>
                     </div>
@@ -86,10 +91,10 @@ $breadcrumbs = [
             // Form validation and enhancement
             $(document).ready(function() {
                 // Add any additional form enhancements here
-                
+
                 // Focus on name field
                 $('#name').focus();
-                
+
                 // Form submission handling
                 $('form').on('submit', function() {
                     // Disable submit button to prevent double submission

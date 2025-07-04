@@ -106,10 +106,9 @@ class ForeignCountryController extends Controller
             $name = $ForeignCountry->name;
             $ForeignCountry->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => "Foreign Country '{$name}' has been deleted successfully."
-            ]);
+            return redirect()->route('team.settings.foreign-country.index')
+                ->with('success', "Country '{$name}' has been deleted successfully.");
+
 
         } catch (\Exception $e) {
             return response()->json([
@@ -126,9 +125,9 @@ class ForeignCountryController extends Controller
     {
         try {
             $ForeignCountry->update(['status' => !$ForeignCountry->status]);
-            
+
             $status = $ForeignCountry->status ? 'activated' : 'deactivated';
-            
+
             return response()->json([
                 'success' => true,
                 'message' => "Foreign Country '{$ForeignCountry->name}' has been {$status} successfully.",

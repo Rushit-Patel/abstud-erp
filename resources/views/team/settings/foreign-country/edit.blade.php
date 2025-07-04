@@ -31,42 +31,49 @@ $breadcrumbs = [
                 <form action="{{ route('team.settings.foreign-country.update', $ForeignCountry) }}" method="POST" class="form">
                     @csrf
                     @method('PUT')
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 py-5">
-                        <div class="flex flex-col gap-2.5">
-                            <label for="name" class="form-label required">Country Name</label>
-                            <input type="text" 
-                                   id="name" 
-                                   name="name" 
-                                   class="form-control @error('name') is-invalid @enderror" 
-                                   placeholder="Enter foreign-country name"
-                                   value="{{ old('name', $ForeignCountry->name) }}"
-                                   required>
-                            @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
 
-                        
-                        <div class="flex flex-col gap-2.5">
-                            <label class="form-label">Status</label>
-                            <div class="form-check">
-                                <input type="checkbox" 
-                                       id="status" 
-                                       name="status" 
-                                       class="form-check-input" 
-                                       value="1"
-                                       {{ old('status', $ForeignCountry->status) ? 'checked' : '' }}>
-                                <label for="status" class="form-check-label">
-                                    Active
-                                </label>
+                                    <div class="grid lg:grid-cols-2 gap-5 lg:gap-7.5">
+                    <!-- Basic Information -->
+                    <div class="col-span-1">
+                        <x-team.card title="Basic Information">
+                            <div class="grid gap-5">
+                                <!-- Country Name -->
+                                <x-team.forms.input
+                                    name="name"
+                                    label="Country Name"
+                                    type="text"
+                                    placeholder="Enter country name"
+                                    :value="old('name', $ForeignCountry->name)"
+                                    required />
                             </div>
-                            <div class="text-2xs text-gray-600">
-                                Uncheck to make this foreign-country inactive
-                            </div>
-                        </div>
-
+                        </x-team.card>
                     </div>
+
+                    <!-- Currency & Regional -->
+                    <div class="col-span-1">
+                        <div class="grid gap-5 lg:gap-7.5">
+
+                            <!-- Status -->
+                            <x-team.card title="Status Settings">
+                                <div class="flex flex-col gap-1 mt-4">
+                                    <label class="kt-form-label font-normal text-mono">Status</label>
+                                    <label class="kt-label">
+                                        <input class="kt-checkbox kt-checkbox-sm"
+                                            name="status"
+                                            type="checkbox"
+                                            value="1"
+                                            {{ old('status', $ForeignCountry->status) ? 'checked' : '' }}
+                                        />
+                                        <span class="kt-checkbox-label">
+                                            Active (Enable this country for selection)
+                                        </span>
+                                    </label>
+                                </div>
+                            </x-team.card>
+                        </div>
+                    </div>
+                </div>
+
 
                     <!-- Additional Information -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 py-5 border-t border-gray-200">
@@ -76,7 +83,7 @@ $breadcrumbs = [
                                 {{ $ForeignCountry->created_at->format('M d, Y \a\t h:i A') }}
                             </div>
                         </div>
-                        
+
                         <div class="flex flex-col gap-2.5">
                             <label class="form-label">Last Updated</label>
                             <div class="text-sm text-gray-700">
@@ -105,10 +112,10 @@ $breadcrumbs = [
             // Form validation and enhancement
             $(document).ready(function() {
                 // Add any additional form enhancements here
-                
+
                 // Focus on name field
                 $('#name').focus();
-                
+
                 // Form submission handling
                 $('form').on('submit', function() {
                     // Disable submit button to prevent double submission
