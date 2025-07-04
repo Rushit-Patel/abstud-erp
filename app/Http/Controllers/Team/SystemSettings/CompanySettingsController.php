@@ -7,8 +7,11 @@ use App\Models\City;
 use App\Models\CompanySetting;
 use App\Models\Country;
 use App\Models\State;
+use App\Mail\TestSmtpMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Rule;
 
 class CompanySettingsController extends Controller
@@ -227,5 +230,62 @@ class CompanySettingsController extends Controller
                      ->get(['id', 'name']);
         
         return response()->json($cities);
+    }
+
+    /**
+     * Test SMTP configuration
+     */
+    public function testSmtp(Request $request)
+    {
+        $request->validate([
+            'test_email' => 'required|email'
+        ]);
+
+        try {
+            // Check if basic SMTP settings are configured
+            $requiredSettings = [
+                'MAIL_HOST' => env('MAIL_HOST'),
+                'MAIL_PORT' => env('MAIL_PORT'),
+                'MAIL_FROM_ADDRESS' => env('MAIL_FROM_ADDRESS'),
+            ];
+
+            $missingSettings = [];
+            foreach ($requiredSettings as $setting => $value) {
+                if (empty($value)) {
+                    $missingSettings[] = $setting;
+                }
+            }
+
+            if (!empty($missingSettings)) {
+                return back()->withErrors([
+                    'test_email' => 'Missing required SMTP settings: ' . implode(', ', $missingSettings) . '. Please configure these in your .env file.'
+                ]);
+            }
+
+            // Send test email using the TestSmtpMail class
+            Mail::to($request->test_email)
+            ->send(new TestSmtpMail($request->test_email));
+
+            return back()->with('success', 'Test email sent successfully to ' . $request->test_email . '! Please check your inbox and spam folder.');
+
+        } catch (\Exception $e) {
+            \Log::error('SMTP Test Error: ' . $e->getMessage());
+            
+            return back()->withErrors([
+                'test_email' => 'Failed to send test email: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Preview the SMTP test email template
+     */
+    public function previewSmtpTestEmail()
+    {
+        $testMail = new TestSmtpMail('test@example.com');
+        
+        return view('emails.test-smtp', [
+            'testData' => $testMail->testData
+        ]);
     }
 }

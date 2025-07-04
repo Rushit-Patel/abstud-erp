@@ -32,6 +32,11 @@ Route::prefix('settings')->name('settings.')->group(function () {
         Route::delete('logo/remove', [CompanySettingsController::class, 'removeLogo'])->name('logo.remove');
         Route::post('favicon/upload', [CompanySettingsController::class, 'uploadFavicon'])->name('favicon.upload');
         Route::delete('favicon/remove', [CompanySettingsController::class, 'removeFavicon'])->name('favicon.remove');
+        Route::post('test-smtp', [CompanySettingsController::class, 'testSmtp'])->name('test-smtp');
+        Route::get('preview-smtp-email', [CompanySettingsController::class, 'previewSmtpTestEmail'])->name('preview-smtp-email');
+        Route::get('delivery-troubleshooting', [CompanySettingsController::class, 'getDeliveryTroubleshooting'])->name('delivery-troubleshooting');
+        Route::get('smtp-status', [CompanySettingsController::class, 'getSmtpStatus'])->name('smtp-status');
+        Route::get('email-logs', [CompanySettingsController::class, 'checkEmailLogs'])->name('email-logs');
 
         // AJAX routes for location dependencies
         Route::get('states/{country}', [CompanySettingsController::class, 'getStatesByCountry'])->name('states');

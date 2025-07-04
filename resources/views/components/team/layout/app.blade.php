@@ -5,6 +5,7 @@
         {{ $title }} | {{ $appData['companyName'] }}
     </title>
     <meta charset="utf-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta content="follow, index" name="robots" />
     <link href="works.html" rel="canonical" />
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />

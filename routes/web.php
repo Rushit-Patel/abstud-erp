@@ -36,7 +36,7 @@ Route::prefix('team')->name('team.')->middleware('company.setup')->group(functio
     require __DIR__.'/Team/auth.php';
 
     // Protected Admin Routes
-    Route::middleware(['guard:web'])->group(function () {
+    Route::middleware(['auth:web'])->group(function () {
         // Dashboard Module
         require __DIR__.'/Team/dashboard.php';
         
