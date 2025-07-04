@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\Route;
 
 
 // Only Ui routes are defined here, no for live data.
-Route::get('lead', [LeadController::class,'index'])->name('leads.index');
-
+// Route::get('lead', [LeadController::class,'index'])->name('leads.index');
+  Route::resource('lead', LeadController::class)
+        ->only(['index', 'create', 'store', 'show', 'edit', 'update', 'destroy'])
+        ->names('lead');
 
 // Team Dashboard Routes
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
