@@ -106,10 +106,8 @@ class SourceController extends Controller
             $name = $Source->name;
             $Source->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => "Source '{$name}' has been deleted successfully."
-            ]);
+            return redirect()->route('team.settings.source.index')
+                ->with('success', "Source '{$name}' has been deleted successfully.");
 
         } catch (\Exception $e) {
             return response()->json([
@@ -126,9 +124,9 @@ class SourceController extends Controller
     {
         try {
             $Source->update(['status' => !$Source->status]);
-            
+
             $status = $Source->status ? 'activated' : 'deactivated';
-            
+
             return response()->json([
                 'success' => true,
                 'message' => "Source '{$Source->name}' has been {$status} successfully.",

@@ -106,10 +106,9 @@ class LeadTypesController extends Controller
             $name = $leadType->name;
             $leadType->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => "Lead type '{$name}' has been deleted successfully."
-            ]);
+            return redirect()->route('team.settings.lead-types.index')
+                ->with('success', "Lead type '{$name}' has been deleted successfully.");
+
 
         } catch (\Exception $e) {
             return response()->json([
@@ -126,9 +125,9 @@ class LeadTypesController extends Controller
     {
         try {
             $leadType->update(['status' => !$leadType->status]);
-            
+
             $status = $leadType->status ? 'activated' : 'deactivated';
-            
+
             return response()->json([
                 'success' => true,
                 'message' => "Lead type '{$leadType->name}' has been {$status} successfully.",

@@ -31,40 +31,45 @@ $breadcrumbs = [
                 <form action="{{ route('team.settings.coaching.update', $coaching) }}" method="POST" class="form">
                     @csrf
                     @method('PUT')
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 py-5">
-                        <div class="flex flex-col gap-2.5">
-                            <label for="name" class="form-label required">Coaching Name</label>
-                            <input type="text" 
-                                   id="name" 
-                                   name="name" 
-                                   class="form-control @error('name') is-invalid @enderror" 
-                                   placeholder="Enter Coaching name"
-                                   value="{{ old('name', $coaching->name) }}"
-                                   required>
-                            @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
 
-                        
-                        <div class="flex flex-col gap-2.5">
-                            <label class="form-label">Status</label>
-                            <div class="form-check">
-                                <input type="checkbox" 
-                                       id="status" 
-                                       name="status" 
-                                       class="form-check-input" 
-                                       value="1"
-                                       {{ old('status', $coaching->status) ? 'checked' : '' }}>
-                                <label for="status" class="form-check-label">
-                                    Active
-                                </label>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 py-5">
+
+                        <div class="col-span-1">
+                        <x-team.card title="Basic Information">
+                            <div class="grid gap-5">
+                                <x-team.forms.input
+                                    name="name"
+                                    label="Coaching Name"
+                                    type="text"
+                                    placeholder="Enter coaching name"
+                                    :value="old('name', $coaching->name)"
+                                    required />
                             </div>
-                            <div class="text-2xs text-gray-600">
-                                Uncheck to make this coaching inactive
-                            </div>
+                        </x-team.card>
+                    </div>
+
+
+                        <div class="col-span-1">
+                        <div class="grid gap-5 lg:gap-7.5">
+                            <!-- Status -->
+                            <x-team.card title="Status Settings">
+                                <div class="flex flex-col gap-1 mt-4">
+                                    <label class="kt-form-label font-normal text-mono">Status</label>
+                                    <label class="kt-label">
+                                        <input class="kt-checkbox kt-checkbox-sm"
+                                            name="status"
+                                            type="checkbox"
+                                            value="1"
+                                            {{ old('status', $coaching->status) ? 'checked' : '' }}
+                                        />
+                                        <span class="kt-checkbox-label">
+                                            Uncheck to make this coaching inactive
+                                        </span>
+                                    </label>
+                                </div>
+                            </x-team.card>
                         </div>
+                    </div>
 
                     </div>
 
@@ -76,7 +81,7 @@ $breadcrumbs = [
                                 {{ $coaching->created_at->format('M d, Y \a\t h:i A') }}
                             </div>
                         </div>
-                        
+
                         <div class="flex flex-col gap-2.5">
                             <label class="form-label">Last Updated</label>
                             <div class="text-sm text-gray-700">
@@ -105,10 +110,10 @@ $breadcrumbs = [
             // Form validation and enhancement
             $(document).ready(function() {
                 // Add any additional form enhancements here
-                
+
                 // Focus on name field
                 $('#name').focus();
-                
+
                 // Form submission handling
                 $('form').on('submit', function() {
                     // Disable submit button to prevent double submission

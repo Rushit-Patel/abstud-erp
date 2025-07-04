@@ -106,15 +106,13 @@ class LeasStatusController extends Controller
             $name = $LeadStatus->name;
             $LeadStatus->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => "LeadStatus '{$name}' has been deleted successfully."
-            ]);
+            return redirect()->route('team.settings.lead-status.index')
+                ->with('success', "Lead Status '{$name}' has been deleted successfully.");
 
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error deleting LeadStatus: ' . $e->getMessage()
+                'message' => 'Error deleting Lead Status: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -126,9 +124,9 @@ class LeasStatusController extends Controller
     {
         try {
             $LeadStatus->update(['status' => !$LeadStatus->status]);
-            
+
             $status = $LeadStatus->status ? 'activated' : 'deactivated';
-            
+
             return response()->json([
                 'success' => true,
                 'message' => "Lead Status '{$LeadStatus->name}' has been {$status} successfully.",

@@ -38,19 +38,11 @@ $breadcrumbs = [
                                 <!-- Country Selection -->
                                 <div class="flex flex-col gap-1">
                                     <label class="kt-form-label font-normal text-mono required">Country</label>
-                                    {{-- <select name="country_id" class="kt-select" required>
-                                        <option value="">Select Country</option>
-                                        @foreach($countries as $country)
-                                            <option value="{{ $country->id }}" {{ old('country_id') == $state->country_id ? 'selected' : '' }}>
-                                                {{ $country->icon }} {{ $country->name }}
-                                            </option>
-                                        @endforeach
-                                    </select> --}}
                                     <select name="country_id" class="kt-select" required>
                                         <option value="">Select Country</option>
                                         @foreach($countries as $country)
                                             <option value="{{ $country->id }}" {{ old('country_id', $state->country_id) == $country->id ? 'selected' : '' }}>
-                                                {{ $country->icon }} {{ $country->name }}
+                                                {{ $country->name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -61,21 +53,21 @@ $breadcrumbs = [
                                 </div>
 
                                 <!-- State Name -->
-                                <x-team.forms.input 
-                                    name="name" 
-                                    label="State/Province Name" 
-                                    type="text" 
-                                    placeholder="Enter state or province name" 
+                                <x-team.forms.input
+                                    name="name"
+                                    label="State/Province Name"
+                                    type="text"
+                                    placeholder="Enter state or province name"
                                     {{-- :value="old('name')"  --}}
-                                    :value="old('name', $state->name)" 
+                                    :value="old('name', $state->name)"
                                     required />
 
                                 <!-- State Code -->
-                                <x-team.forms.input 
-                                    name="state_code" 
-                                    label="State Code" 
-                                    type="text" 
-                                    placeholder="e.g. CA, NY, TX" 
+                                <x-team.forms.input
+                                    name="state_code"
+                                    label="State Code"
+                                    type="text"
+                                    placeholder="e.g. CA, NY, TX"
                                     maxlength="10"
                                     :value="old('state_code' ,$state->state_code)" />
                             </div>
@@ -88,10 +80,10 @@ $breadcrumbs = [
                             <div class="flex flex-col gap-1">
                                 <label class="kt-form-label font-normal text-mono">Status</label>
                                 <label class="kt-label">
-                                    <input class="kt-checkbox kt-checkbox-sm" 
-                                        name="is_active" 
-                                        type="checkbox" 
-                                        value="1" 
+                                    <input class="kt-checkbox kt-checkbox-sm"
+                                        name="is_active"
+                                        type="checkbox"
+                                        value="1"
                                         {{ old('is_active', true) ? 'checked' : '' }}
                                     />
                                     <span class="kt-checkbox-label">

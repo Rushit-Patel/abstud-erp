@@ -41,24 +41,6 @@ $breadcrumbs = [
             </x-team.card>
         </div>
 
-        <!-- Delete Modal -->
-        
-         <div id="deleteModal" class="fixed inset-0 z-50 hidden flex items-center justify-center backdrop-blur-sm bg-opacity-50">
-            <div class="bg-white rounded-lg p-6 w-full max-w-md shadow-lg border border-gray-300">
-                <h2 class="text-lg font-semibold mb-4">Delete Source</h2>
-                <p class="mb-6">Are you sure you want to delete this Source?</p>
-                
-                <form id="deleteForm" action="{{ route('team.settings.source.destroy', '__id__') }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <div class="flex justify-end gap-2">
-                        <button type="button" onclick="closeModal()" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
-                        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
     </x-slot>
 
     @push('scripts')
@@ -69,32 +51,11 @@ $breadcrumbs = [
             'resources/js/team/vendors/dataTables.buttons.js'
         ])
         {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-        
-        <script>
-            function openDeleteModal(id) {
-                const modal = document.getElementById('deleteModal');
-                const form = document.getElementById('deleteForm');
-
-                if (!form.dataset.baseAction) {
-                    form.dataset.baseAction = form.getAttribute('action');
-                }
-
-                const newAction = form.dataset.baseAction.replace('__id__', id);
-                form.setAttribute('action', newAction);
-
-                modal.classList.remove('hidden');
-            }
-
-            function closeModal() {
-                const modal = document.getElementById('deleteModal');
-                const form = document.getElementById('deleteForm');
-
-                if (form.dataset.baseAction) {
-                    form.setAttribute('action', form.dataset.baseAction);
-                }
-
-                modal.classList.add('hidden');
-            }
-        </script>
     @endpush
 </x-team.layout.app>
+<x-team.modals.delete-modal
+    id="delete_modal"
+    title="Delete Source"
+    formId="deleteCountryForm"
+    message="Are you sure you want to delete this source? This action cannot be undone."
+/>

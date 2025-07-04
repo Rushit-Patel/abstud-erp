@@ -40,7 +40,7 @@ $breadcrumbs = [
             </x-team.card>
         </div>
 
-     
+
     </x-slot>
         @push('scripts')
 
@@ -54,9 +54,9 @@ $breadcrumbs = [
 
 </x-team.layout.app>
 
-<x-team.modals.delete-modal 
-    id="delete_modal" 
-    title="Delete Country" 
+<x-team.modals.delete-modal
+    id="delete_modal"
+    title="Delete Country"
     formId="deleteCountryForm"
     message="Are you sure you want to delete this country? This action cannot be undone."
 />
